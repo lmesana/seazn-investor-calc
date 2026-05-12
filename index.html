@@ -880,6 +880,79 @@
   .alts-table tr.seazn { background: var(--seazn-light); }
   .alts-table tr.seazn td { color: var(--seazn-dark); font-weight: 600; }
   .alts-table tr.seazn td:first-child::before { content: "★ "; }
+
+  /* Info buttons & popups */
+  .info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--seazn-light);
+    color: var(--seazn-dark);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: Georgia, serif;
+    font-style: italic;
+    border: none;
+    cursor: pointer;
+    margin-left: 6px;
+    padding: 0;
+    transition: all 0.15s;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .info-btn:hover, .info-btn.active {
+    background: var(--seazn);
+    color: white;
+    transform: scale(1.1);
+  }
+  .info-pop {
+    position: absolute;
+    background: var(--navy);
+    color: white;
+    padding: 16px 18px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.55;
+    max-width: 340px;
+    z-index: 9998;
+    box-shadow: 0 12px 40px rgba(74, 63, 58, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .info-pop.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .info-pop strong { color: var(--gold); font-weight: 700; }
+  .info-pop em { color: var(--seazn-light); font-style: normal; font-weight: 600; }
+  .info-pop .formula {
+    display: block;
+    background: rgba(255,255,255,0.08);
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    color: var(--seazn-light);
+    line-height: 1.5;
+  }
+  .info-pop .close-x {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    cursor: pointer;
+    color: var(--slate-soft);
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 6px;
+  }
+  .info-pop .close-x:hover { color: white; }
 </style>
 </head>
 <body>
@@ -975,7 +1048,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">Women in peri / menopause</span>
+            <span class="input-label-text">Women in peri / menopause <button class="info-btn" data-info='Population of women aged 40–65 in the selected geography. Calibrated to UN World Population Prospects, US Census, Statistics Canada, ONS, and Eurostat. <strong>This is the total population, not the symptomatic subset.</strong>'>i</button></span>
             <span class="input-value" id="popVal">1.10B</span>
           </div>
           <input type="range" id="pop" min="1" max="2000" value="1100" step="1">
@@ -984,7 +1057,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">% experiencing symptoms</span>
+            <span class="input-label-text">% experiencing symptoms <button class="info-btn" data-info='Of women in peri/menopause, the share experiencing symptoms (hot flashes, sleep disruption, mood, cognitive, etc.). <strong>Source:</strong> NAMS &amp; IMS literature reports <em>75–85%</em>; ~25% have severe symptoms affecting quality of life.'>i</button></span>
             <span class="input-value" id="sympVal">80%</span>
           </div>
           <input type="range" id="symp" min="50" max="95" value="80" step="5">
@@ -993,7 +1066,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">Seazn adoption rate</span>
+            <span class="input-label-text">Seazn adoption rate <button class="info-btn" data-info='Percentage of symptomatic women in the geography who actively use Seazn. <strong>Benchmark:</strong> <em>5%</em> is a reasonable serviceable target for a category-defining digital health app at scale. Established categories (Calm, Headspace, Noom) capture 10–25% of their addressable user base.'>i</button></span>
             <span class="input-value" id="adoptVal">5%</span>
           </div>
           <input type="range" id="adopt" min="1" max="25" value="5" step="1">
@@ -1002,7 +1075,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">Symptom-management uplift</span>
+            <span class="input-label-text">Symptom-management uplift <button class="info-btn" data-info='How much Seazn reduces unmanaged symptom burden vs. doing nothing. <strong>Base case: 40%</strong>. All per-user dollar values scale linearly around this baseline — lower for conservative scenarios, higher if you assume stronger intervention quality (e.g., evidence-based content + clinician routing + symptom tracking).'>i</button></span>
             <span class="input-value" id="upliftVal">40%</span>
           </div>
           <input type="range" id="uplift" min="10" max="70" value="40" step="5">
@@ -1011,7 +1084,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">% of women employed</span>
+            <span class="input-label-text">% of women employed <button class="info-btn" data-info='Labor force participation rate for women aged 40–65 in the selected geography. <strong>Only the employer-side value pool</strong> scales with this — public health, insurer, and women&#39;s pools are independent of employment status. Calibrated to BLS, Stats Canada, ONS, Eurostat.'>i</button></span>
             <span class="input-value" id="empVal">50%</span>
           </div>
           <input type="range" id="emp" min="30" max="80" value="50" step="5">
@@ -1081,7 +1154,7 @@
           <div class="ce-assumptions">
             <div class="input-group">
               <div class="input-label">
-                <span class="input-label-text">Seazn cost to payer per user/yr</span>
+                <span class="input-label-text">Seazn cost to payer per user/yr <button class="info-btn" data-info='Annual price Seazn would charge per user. <strong>Typical pricing:</strong> B2C subscription <em>$120</em>, employer benefit <em>$80</em>, health system contract <em>$40</em>. Adjust to model different go-to-market scenarios.'>i</button></span>
                 <span class="input-value" id="ceCostVal">$80</span>
               </div>
               <input type="range" id="ceCost" min="20" max="300" value="80" step="10">
@@ -1089,7 +1162,7 @@
             </div>
             <div class="input-group">
               <div class="input-label">
-                <span class="input-label-text">QALY gained per user/yr</span>
+                <span class="input-label-text">QALY gained per user/yr <button class="info-btn" data-info='<strong>Quality-Adjusted Life Year improvement.</strong> Severe menopause symptoms reduce QALY by <em>0.05–0.10/year</em> in published literature (NICE HEOR). Seazn captures a portion via better symptom management — base case assumes <em>0.03 QALY/user/yr</em>, conservative against the upper bound.'>i</button></span>
                 <span class="input-value" id="ceQalyVal">0.03</span>
               </div>
               <input type="range" id="ceQaly" min="1" max="10" value="3" step="1">
@@ -1132,22 +1205,22 @@
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-label">Reachable users</div>
+      <div class="stat-label">Reachable users <button class="info-btn" data-info='Number of women who actively use Seazn at the modeled adoption rate. <strong>This is your active user base, not the total market.</strong><span class="formula">Population × % symptomatic × adoption rate</span>'>i</button></div>
       <div class="stat-value" id="statUsers">0</div>
       <div class="stat-sub">at modeled adoption</div>
     </div>
     <div class="stat">
-      <div class="stat-label">Value per user / yr</div>
+      <div class="stat-label">Value per user / yr <button class="info-btn" data-info='Annual economic value Seazn creates per active user for the current stakeholder view. <strong>For &quot;All Stakeholders&quot;</strong>, this is the sum across public health + employers + insurers + women — distinct value pools that aggregate to societal value.'>i</button></div>
       <div class="stat-value" id="statPerUser">$0</div>
       <div class="stat-sub" id="statPerUserSub">across all stakeholders</div>
     </div>
     <div class="stat">
-      <div class="stat-label">5-year opportunity</div>
+      <div class="stat-label">5-year opportunity <button class="info-btn" data-info='Cumulative value created over 5 years at the current annual run-rate. <strong>Conservative:</strong> assumes flat adoption with no growth or compounding. Real numbers ramp as adoption scales.<span class="formula">Annual value × 5 years</span>'>i</button></div>
       <div class="stat-value" id="stat5Yr">$0</div>
       <div class="stat-sub">cumulative value created</div>
     </div>
     <div class="stat">
-      <div class="stat-label">Implied ARR ceiling</div>
+      <div class="stat-label">Implied ARR ceiling <button class="info-btn" data-info='If Seazn captures 10% of the value it creates as recurring revenue, this is the implied ARR ceiling. <strong>10% is conservative</strong> — value-based healthcare contracts typically allow 15–25% capture. This is your &quot;how big could this get&quot; number for investors.<span class="formula">Annual value × 10% capture rate</span>'>i</button></div>
       <div class="stat-value" id="statArr">$0</div>
       <div class="stat-sub">at 10% value capture</div>
     </div>
@@ -1294,6 +1367,11 @@
 
   // ── Helpers ──────────────────────────────────────────────────────────────
   const $ = id => document.getElementById(id);
+
+  // Info-button helper for dynamic content. Use single quotes inside content.
+  function info(html) {
+    return `<button class="info-btn" data-info='${html.replace(/'/g, "&#39;")}' aria-label="More info">i</button>`;
+  }
 
   function fmtMoney(n, compact = true) {
     if (!isFinite(n)) return "$0";
@@ -1498,27 +1576,27 @@
     // Unit economics cards
     $("ceCards").innerHTML = `
       <div class="ce-card">
-        <div class="ce-card-label">Value Created</div>
+        <div class="ce-card-label">Value Created ${info("Annual economic value created per Seazn user for the current stakeholder view. Sum of all line items shown in the Savings View breakdown.")}</div>
         <div class="ce-card-value">${fmtMoney(valuePerUser, false)}</div>
         <div class="ce-card-sub">per user, per year</div>
       </div>
       <div class="ce-card cost">
-        <div class="ce-card-label">Cost to Payer</div>
+        <div class="ce-card-label">Cost to Payer ${info("What the payer (employer, insurer, or health system) pays Seazn per user per year. <strong>Blended pricing estimate</strong>: B2C ~$120, employer benefits ~$80, health system contract ~$40. Adjustable via the slider above.")}</div>
         <div class="ce-card-value">$${perUserCost}</div>
         <div class="ce-card-sub">per user, per year</div>
       </div>
       <div class="ce-card net">
-        <div class="ce-card-label">Net Value</div>
+        <div class="ce-card-label">Net Value ${info("Value created minus cost — the dollars the payer keeps after paying for Seazn.<span class=\"formula\">Value created − Seazn cost</span>")}</div>
         <div class="ce-card-value">${fmtMoney(netPerUser, false)}</div>
         <div class="ce-card-sub">value − cost</div>
       </div>
       <div class="ce-card roi">
-        <div class="ce-card-label">ROI Multiple</div>
+        <div class="ce-card-label">ROI Multiple ${info("Return on investment for the payer. For every $1 spent on Seazn, this many dollars of value are created. <strong>Benchmarks for digital health:</strong> 3–5× is strong; >5× is exceptional; <2× is questionable for value-based contracts.<span class=\"formula\">Value created ÷ Seazn cost</span>")}</div>
         <div class="ce-card-value">${roi.toFixed(1)}×</div>
         <div class="ce-card-sub">return per $1 spent</div>
       </div>
       <div class="ce-card payback">
-        <div class="ce-card-label">Payback Period</div>
+        <div class="ce-card-label">Payback Period ${info("How quickly Seazn pays for itself once a user is enrolled. Measured in days, months, or years depending on magnitude.<span class=\"formula\">Cost ÷ (Value created per day)</span>")}</div>
         <div class="ce-card-value">${paybackDays < 30 ? paybackDays.toFixed(0) + "d" : paybackDays < 365 ? (paybackDays/30).toFixed(1) + "mo" : (paybackDays/365).toFixed(1) + "yr"}</div>
         <div class="ce-card-sub">to recoup spend</div>
       </div>
@@ -1560,8 +1638,15 @@
       ? `Seazn is <strong style="color:var(--seazn-dark)">${primaryMult.toFixed(0)}× more cost-effective</strong> than the ${primary.name} <strong>$${primary.value.toLocaleString()}/QALY</strong> threshold — ${bestThreshold}.`
       : `Cost/QALY exceeds the ${primary.name} <strong>$${primary.value.toLocaleString()}/QALY</strong> threshold — ${bestThreshold}.`;
 
+    const THRESHOLD_DETAILS = {
+      who:   "<strong>World Health Organization &quot;very cost-effective&quot; threshold.</strong> Set at 1× GDP per capita. Used for global health policy and reimbursement decisions in low- and middle-income countries.",
+      nice:  "<strong>UK National Institute for Health and Care Excellence (NICE).</strong> The standard NHS cost-effectiveness threshold is <em>£20,000–£30,000 per QALY gained</em> (~$25K–$38K USD). Interventions below this are considered cost-effective for NHS reimbursement.",
+      cadth: "<strong>Canadian Agency for Drugs and Technologies in Health (CADTH).</strong> A common reference threshold of $50,000 per QALY is used for Canadian public payer reimbursement, though decisions are made case-by-case.",
+      icer:  "<strong>US Institute for Clinical and Economic Review (ICER).</strong> Uses a $100,000–$150,000 per QALY willingness-to-pay range. Above $150K is typically deemed too costly without supplementary evidence.",
+    };
+
     $("icerBanner").innerHTML = `
-      <div class="icer-headline">Cost per QALY gained: <strong>$${Math.round(costPerQALY).toLocaleString()}</strong></div>
+      <div class="icer-headline">Cost per QALY gained: <strong>$${Math.round(costPerQALY).toLocaleString()}</strong> ${info("<strong>Cost per QALY</strong> (Quality-Adjusted Life Year) is the single most important metric in health economics. It tells a payer: <em>how much does it cost to gain one year of perfect-health-equivalent quality of life?</em> Below the threshold = funded.<span class=\"formula\">Annual cost per user ÷ QALY gained per user/yr</span>")}</div>
       <div style="font-size:14px;color:var(--slate);line-height:1.5">${verdict}</div>
       <div class="icer-thresholds">
         ${ICER_THRESHOLDS.map(t => {
@@ -1570,7 +1655,7 @@
           const borderColor = passes ? 'var(--teal)' : 'var(--slate)';
           return `
             <div class="icer-threshold-card" style="border-left:3px solid ${borderColor};${isPrimary ? 'box-shadow:0 0 0 2px var(--seazn);background:var(--seazn-light);' : ''}">
-              <div class="icer-threshold-name">${t.name}${isPrimary ? ' · primary for ' + REGIONS[geo].name : ''}</div>
+              <div class="icer-threshold-name">${t.name}${isPrimary ? ' · primary for ' + REGIONS[geo].name : ''} ${info(THRESHOLD_DETAILS[t.key])}</div>
               <div class="icer-threshold-value">$${t.value.toLocaleString()}/QALY</div>
               <div class="icer-threshold-note">${passes ? "✓ Cost-effective" : "Above threshold"} · ${t.note}</div>
             </div>
@@ -1753,7 +1838,7 @@
     $("funnelDetails").innerHTML = `
       <div class="funnel-row tam">
         <div class="funnel-row-head">
-          <span class="funnel-row-tier">TAM — Total Addressable</span>
+          <span class="funnel-row-tier">TAM — Total Addressable ${info("<strong>Total Addressable Market.</strong> The ceiling of the opportunity if Seazn served every market globally with no friction. <em>Not a realistic capture target</em> — TAM is the strategic anchor, the &quot;how big is this category&quot; number.")}</span>
           <span class="funnel-row-value">${fmtMoney(f.tam.value)}</span>
         </div>
         <div class="funnel-row-name">Global peri / menopause cohort</div>
@@ -1762,7 +1847,7 @@
       </div>
       <div class="funnel-row sam">
         <div class="funnel-row-head">
-          <span class="funnel-row-tier">SAM — Serviceable Addressable</span>
+          <span class="funnel-row-tier">SAM — Serviceable Addressable ${info("<strong>Serviceable Addressable Market.</strong> Markets where Seazn can credibly operate at launch: <em>US, Canada, UK, EU</em>. Constrained by language coverage, payer infrastructure, regulatory readiness, and employer benefits adoption.")}</span>
           <span class="funnel-row-value">${fmtMoney(f.sam.value)}</span>
         </div>
         <div class="funnel-row-name">US · Canada · UK · EU</div>
@@ -1771,7 +1856,7 @@
       </div>
       <div class="funnel-row som">
         <div class="funnel-row-head">
-          <span class="funnel-row-tier">SOM — Serviceable Obtainable</span>
+          <span class="funnel-row-tier">SOM — Serviceable Obtainable ${info("<strong>Serviceable Obtainable Market.</strong> What Seazn realistically captures in 3–5 years in the selected geography. Scales with the adoption rate slider. <em>This is the value pool behind the headline number</em> at the top of the page.")}</span>
           <span class="funnel-row-value">${fmtMoney(f.som.value)}</span>
         </div>
         <div class="funnel-row-name">${f.som.label}</div>
@@ -2036,6 +2121,63 @@
 
   syncSlidersToGeo();
   render();
+
+  // ── Info buttons (click-to-show tooltip) ─────────────────────────────────
+  (function setupInfoButtons() {
+    let activePop = null;
+    let activeBtn = null;
+
+    function hidePop() {
+      if (activePop) { activePop.remove(); activePop = null; }
+      if (activeBtn) { activeBtn.classList.remove("active"); activeBtn = null; }
+    }
+
+    function positionPop(pop, btn) {
+      const rect = btn.getBoundingClientRect();
+      // Append first so we can measure
+      pop.style.left = "0px";
+      pop.style.top = "0px";
+      const popRect = pop.getBoundingClientRect();
+      let left = rect.left + window.scrollX - 8;
+      let top = rect.bottom + window.scrollY + 10;
+      const maxLeft = window.scrollX + window.innerWidth - popRect.width - 16;
+      const minLeft = window.scrollX + 16;
+      if (left > maxLeft) left = maxLeft;
+      if (left < minLeft) left = minLeft;
+      // If would overflow bottom of viewport, put it above the button
+      if (rect.bottom + popRect.height + 20 > window.innerHeight) {
+        top = rect.top + window.scrollY - popRect.height - 10;
+      }
+      pop.style.left = left + "px";
+      pop.style.top = top + "px";
+    }
+
+    document.addEventListener("click", function(e) {
+      const btn = e.target.closest(".info-btn");
+      if (btn) {
+        e.stopPropagation();
+        if (activeBtn === btn) { hidePop(); return; }
+        hidePop();
+        const html = btn.getAttribute("data-info");
+        const pop = document.createElement("div");
+        pop.className = "info-pop";
+        pop.innerHTML = `<span class="close-x">×</span>${html}`;
+        document.body.appendChild(pop);
+        positionPop(pop, btn);
+        requestAnimationFrame(() => pop.classList.add("show"));
+        activePop = pop;
+        activeBtn = btn;
+        btn.classList.add("active");
+        pop.querySelector(".close-x").addEventListener("click", hidePop);
+      } else if (activePop && !activePop.contains(e.target)) {
+        hidePop();
+      }
+    });
+
+    window.addEventListener("scroll", hidePop, { passive: true });
+    window.addEventListener("resize", hidePop);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") hidePop(); });
+  })();
 </script>
 </body>
 </html>

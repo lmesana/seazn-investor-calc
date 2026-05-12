@@ -953,6 +953,199 @@
     padding: 4px 6px;
   }
   .info-pop .close-x:hover { color: white; }
+
+  /* Slide deck export */
+  .slides-intro {
+    background: white;
+    padding: 28px 32px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+  }
+  .slides-intro h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--seazn);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .slides-intro p { font-size: 13px; color: var(--slate); margin-bottom: 14px; max-width: 640px; }
+  .slide-dl-all {
+    display: inline-block;
+    padding: 12px 22px;
+    background: var(--seazn);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .slide-dl-all:hover { background: var(--seazn-dark); }
+  .slide-dl-all:disabled { opacity: 0.6; cursor: wait; }
+
+  .slide-wrap { margin-bottom: 32px; }
+  .slide {
+    width: 880px;
+    height: 495px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    padding: 36px 44px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 100%;
+    color: var(--navy);
+  }
+  @media (max-width: 920px) {
+    .slide { transform: scale(0.6); transform-origin: top center; margin-bottom: -200px; }
+  }
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .slide-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slide-brand img {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+  .slide-brand-name {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--seazn);
+    letter-spacing: -0.3px;
+  }
+  .slide-num {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate-soft);
+    font-weight: 700;
+  }
+  .slide-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 8px 0;
+  }
+  .slide-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-size: 10px;
+    color: var(--slate);
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+    margin-top: 8px;
+  }
+  .slide-big {
+    font-family: Georgia, serif;
+    font-size: 88px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -2px;
+  }
+  .slide-eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--seazn);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .slide-caption {
+    font-size: 16px;
+    color: var(--slate);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .slide-headline {
+    font-family: Georgia, serif;
+    font-size: 36px;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+  .slide-quad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 680px;
+  }
+  .slide-quad-card {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    border-left: 4px solid var(--seazn);
+  }
+  .slide-quad-card.sage { border-left-color: #88AC95; }
+  .slide-quad-card.coral { border-left-color: #E8B194; }
+  .slide-quad-card.deepsage { border-left-color: #7FA289; }
+  .slide-quad-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .slide-quad-value {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .slide-quad-sub { font-size: 12px; color: var(--slate); }
+
+  .slide-dl {
+    display: block;
+    margin: 14px auto 0;
+    padding: 10px 22px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .slide-dl:hover { background: var(--seazn); }
+  .slide-dl:disabled { opacity: 0.6; cursor: wait; }
+
+  .slide-watermark {
+    position: absolute;
+    bottom: 12px;
+    right: 20px;
+    font-size: 9px;
+    color: var(--slate-soft);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 </style>
 </head>
 <body>
@@ -1037,6 +1230,7 @@
     <button class="mode-tab active" data-mode="savings">Savings View</button>
     <button class="mode-tab" data-mode="methodology">Methodology</button>
     <button class="mode-tab" data-mode="economics">Cost-Effectiveness</button>
+    <button class="mode-tab" data-mode="slides">Slides for Deck</button>
   </div>
 
   <div class="grid">
@@ -1152,6 +1346,16 @@
             Per-user dollar values are calibrated against published evidence and scaled by the <strong>symptom-management uplift</strong> slider, which represents Seazn's reduction in unmanaged symptom burden vs. the status quo. The base scenario assumes a 40% uplift; the slider scales all line items linearly around that baseline. Employer-side savings scale with the <strong>% employed</strong> slider (base 50%). Public-system, insurer, and women's-pool values are independent of employment status. The four stakeholder pools have <strong>some real-world overlap</strong> — particularly between employer productivity loss and women's lost income (per <a href="#ref3">ref 3</a>). For investor diligence, the public-health view alone is the cleanest non-overlapping estimate.
           </div>
         </div>
+      </div>
+
+      <!-- Mode: Slides for Deck -->
+      <div class="mode-section" data-mode="slides">
+        <div class="slides-intro">
+          <h3>Investor Slide Deck</h3>
+          <p>Branded, slide-ready visuals you can download as PNGs and paste into Keynote or PowerPoint. Each slide reflects your current geography, stakeholder view, and assumptions — change them above and these will update.</p>
+          <button class="slide-dl-all" id="dlAll">⬇ Download all slides as PNGs</button>
+        </div>
+        <div id="slideDeck"></div>
       </div>
 
       <!-- Mode: Cost-Effectiveness -->
@@ -2101,6 +2305,7 @@
     renderMethodology(result, sliders, R);
     renderFunnel(sliders);
     renderCostEffectiveness(result, sliders);
+    renderSlides(result, sliders);
   }
 
   // ── Wire up ──────────────────────────────────────────────────────────────
@@ -2134,6 +2339,239 @@
         s.classList.toggle("active", s.dataset.mode === mode);
       });
     });
+  });
+
+  // ── Slide deck rendering & PNG export ────────────────────────────────────
+  function slideShell(num, total, body, footerLeft, footerRight) {
+    return `
+      <div class="slide-header">
+        <div class="slide-brand">
+          <img src="seazn-logo.png" alt="Seazn" crossorigin="anonymous">
+          <span class="slide-brand-name">seazn</span>
+        </div>
+        <span class="slide-num">${String(num).padStart(2, "0")} / ${String(total).padStart(2, "0")}</span>
+      </div>
+      <div class="slide-body">${body}</div>
+      <div class="slide-footer">
+        <span>${footerLeft || ""}</span>
+        <span>${footerRight || "Healthcare Savings Calculator · seaznhealth.com"}</span>
+      </div>
+      <div class="slide-watermark">Confidential — Investor Preview</div>
+    `;
+  }
+
+  function renderSlides(result, sliders) {
+    const R = REGIONS[geo];
+    const viewName = TITLES[view];
+    const annual = result.total[view];
+    const perUser = result.perUser[view];
+    const users = result.users;
+    const arr = annual * 0.10;
+    const fiveYr = annual * 5;
+    const perUserCost = +$("ceCost").value;
+    const qalyGain = +$("ceQaly").value / 100;
+    const roi = perUser / perUserCost;
+    const costPerQALY = perUserCost / qalyGain;
+    const primary = GEO_PRIMARY[geo];
+    const primaryMult = primary.value / costPerQALY;
+
+    const slides = [
+      {
+        id: "title",
+        eyebrow: "Investor preview",
+        body: `
+          <div class="slide-eyebrow">Healthcare Savings Calculator</div>
+          <div class="slide-headline" style="font-size:48px">The economic case for solving women's<br><em style="color:var(--seazn);font-style:normal">peri / menopause</em> in ${R.name}</div>
+          <div class="slide-caption">Navigate Your Changing Seasons™</div>
+        `,
+        footerLeft: `${R.name} · ${viewName}`,
+      },
+      {
+        id: "headline",
+        body: `
+          <div class="slide-eyebrow">Annual value created · ${R.name}</div>
+          <div class="slide-big">${fmtMoney(annual)}</div>
+          <div class="slide-caption">${R.name === "Global" ? "Across the global perimenopause &amp; menopause population" : "Across the " + R.name + " peri/menopause population"} — money saved, productivity recaptured, value returned to women, employers, insurers, and public health.</div>
+        `,
+        footerLeft: `${fmtCount(users)} users · ${sliders.adopt}% modeled adoption`,
+      },
+      {
+        id: "stakeholders",
+        body: `
+          <div class="slide-eyebrow">Value by stakeholder · ${R.name}</div>
+          <div class="slide-quad">
+            <div class="slide-quad-card sage">
+              <div class="slide-quad-label">Public Health Systems</div>
+              <div class="slide-quad-value">${fmtMoney(result.total.public)}</div>
+              <div class="slide-quad-sub">GP visits, ER, diagnostics, chronic disease prevention</div>
+            </div>
+            <div class="slide-quad-card">
+              <div class="slide-quad-label">Employers</div>
+              <div class="slide-quad-value">${fmtMoney(result.total.employer)}</div>
+              <div class="slide-quad-sub">Productivity, presenteeism, retention of senior talent</div>
+            </div>
+            <div class="slide-quad-card deepsage">
+              <div class="slide-quad-label">Private Insurers</div>
+              <div class="slide-quad-value">${fmtMoney(result.total.insurer)}</div>
+              <div class="slide-quad-sub">Avoided claims, fewer referrals, downstream prevention</div>
+            </div>
+            <div class="slide-quad-card coral">
+              <div class="slide-quad-label">Individual Women</div>
+              <div class="slide-quad-value">${fmtMoney(result.total.women)}</div>
+              <div class="slide-quad-sub">Out-of-pocket, time saved, supplement right-sizing</div>
+            </div>
+          </div>
+        `,
+        footerLeft: "Four distinct economic pools",
+      },
+      {
+        id: "funnel",
+        body: (() => {
+          const f = computeFunnel(sliders);
+          return `
+            <div class="slide-eyebrow">Market sizing · TAM · SAM · SOM</div>
+            <div style="display:grid;grid-template-rows:repeat(3,1fr);gap:8px;width:100%;max-width:680px">
+              <div style="background:#F1D9D2;padding:14px 20px;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-size:10px;letter-spacing:2px;color:var(--slate);font-weight:700">TAM · GLOBAL</div><div style="font-family:Georgia,serif;font-weight:700;color:var(--navy)">${fmtCount(f.tam.users)} symptomatic women</div></div>
+                <div style="font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--navy)">${fmtMoney(f.tam.value)}</div>
+              </div>
+              <div style="background:#C08878;padding:14px 20px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;color:white">
+                <div><div style="font-size:10px;letter-spacing:2px;font-weight:700;opacity:0.9">SAM · US · CANADA · UK · EU</div><div style="font-family:Georgia,serif;font-weight:700">${fmtCount(f.sam.users)} addressable users</div></div>
+                <div style="font-family:Georgia,serif;font-size:24px;font-weight:700">${fmtMoney(f.sam.value)}</div>
+              </div>
+              <div style="background:#4A3F3A;padding:14px 20px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;color:white">
+                <div><div style="font-size:10px;letter-spacing:2px;font-weight:700;opacity:0.9">SOM · ${R.name.toUpperCase()} @ ${sliders.adopt}% ADOPTION</div><div style="font-family:Georgia,serif;font-weight:700">${fmtCount(f.som.users)} Seazn users</div></div>
+                <div style="font-family:Georgia,serif;font-size:24px;font-weight:700">${fmtMoney(f.som.value)}</div>
+              </div>
+            </div>
+          `;
+        })(),
+        footerLeft: "TAM → SAM → SOM",
+      },
+      {
+        id: "economics",
+        body: `
+          <div class="slide-eyebrow">Unit economics for the payer · ${R.name}</div>
+          <div class="slide-quad">
+            <div class="slide-quad-card">
+              <div class="slide-quad-label">Value Created / User / Yr</div>
+              <div class="slide-quad-value">${fmtMoney(perUser, false)}</div>
+              <div class="slide-quad-sub">Economic value each user creates</div>
+            </div>
+            <div class="slide-quad-card deepsage">
+              <div class="slide-quad-label">Seazn Cost / User / Yr</div>
+              <div class="slide-quad-value">$${perUserCost}</div>
+              <div class="slide-quad-sub">Blended payer price</div>
+            </div>
+            <div class="slide-quad-card sage">
+              <div class="slide-quad-label">ROI Multiple</div>
+              <div class="slide-quad-value">${roi.toFixed(1)}×</div>
+              <div class="slide-quad-sub">Value per $1 spent on Seazn</div>
+            </div>
+            <div class="slide-quad-card coral">
+              <div class="slide-quad-label">Net Value / User / Yr</div>
+              <div class="slide-quad-value">${fmtMoney(perUser - perUserCost, false)}</div>
+              <div class="slide-quad-sub">Value − cost, captured by payer</div>
+            </div>
+          </div>
+        `,
+        footerLeft: `Payer ROI assumption: $${perUserCost} / user / yr Seazn pricing`,
+      },
+      {
+        id: "icer",
+        body: `
+          <div class="slide-eyebrow">Cost-effectiveness · ${primary.name} reference</div>
+          <div class="slide-big" style="font-size:64px">$${Math.round(costPerQALY).toLocaleString()}<span style="font-size:24px;color:var(--slate)">  /QALY</span></div>
+          <div class="slide-headline" style="font-size:22px;max-width:680px"><strong style="color:var(--seazn-dark)">${primaryMult.toFixed(0)}× more cost-effective</strong> than the ${primary.name} <strong>$${primary.value.toLocaleString()}/QALY</strong> threshold.</div>
+          <div class="slide-caption" style="font-size:13px">A QALY = one year of perfect-health-equivalent quality of life. Below the threshold = worth funding.</div>
+        `,
+        footerLeft: `QALY gained / user / yr: ${qalyGain.toFixed(2)}`,
+      },
+      {
+        id: "fiveyear",
+        body: `
+          <div class="slide-eyebrow">5-year cumulative opportunity · ${R.name}</div>
+          <div class="slide-big">${fmtMoney(fiveYr)}</div>
+          <div class="slide-caption">Cumulative societal value created over 5 years at modeled adoption. Conservative — assumes flat adoption with no growth or compounding. <strong style="color:var(--navy)">Implies ${fmtMoney(arr)} ARR ceiling at 10% capture.</strong></div>
+        `,
+        footerLeft: `Annual run-rate: ${fmtMoney(annual)} · 5 years`,
+      },
+      {
+        id: "closing",
+        body: `
+          <div class="slide-eyebrow">The Investor Case</div>
+          <div class="slide-headline">Half the population.<br>A decade-long transition.<br><span style="color:var(--seazn)">And until now — no map.</span></div>
+          <div class="slide-caption" style="margin-top:8px">Seazn is the navigation layer that turns invisible suffering into measurable value — for women, employers, insurers, and public systems.</div>
+        `,
+        footerLeft: "Navigate Your Changing Seasons™",
+      },
+    ];
+
+    const total = slides.length;
+    $("slideDeck").innerHTML = slides.map((s, i) => `
+      <div class="slide-wrap">
+        <div class="slide" id="slide-${s.id}">
+          ${slideShell(i + 1, total, s.body, s.footerLeft, s.footerRight)}
+        </div>
+        <button class="slide-dl" data-slide="${s.id}" data-name="seazn-slide-${String(i+1).padStart(2,"0")}-${s.id}">⬇ Download as PNG</button>
+      </div>
+    `).join("");
+  }
+
+  // html2canvas loader (CDN, on demand)
+  let h2cPromise = null;
+  function loadH2C() {
+    if (window.html2canvas) return Promise.resolve(window.html2canvas);
+    if (h2cPromise) return h2cPromise;
+    h2cPromise = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+      s.onload = () => resolve(window.html2canvas);
+      s.onerror = () => reject(new Error("Failed to load html2canvas"));
+      document.head.appendChild(s);
+    });
+    return h2cPromise;
+  }
+
+  async function downloadSlide(slideId, filename, btn) {
+    try {
+      if (btn) { btn.disabled = true; btn.textContent = "Rendering…"; }
+      const h2c = await loadH2C();
+      const el = document.getElementById("slide-" + slideId);
+      const canvas = await h2c(el, { scale: 2, backgroundColor: "#FFFFFF", useCORS: true, logging: false });
+      const link = document.createElement("a");
+      link.download = filename + ".png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (e) {
+      console.error(e);
+      alert("Could not generate PNG. " + e.message);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = "⬇ Download as PNG"; }
+    }
+  }
+
+  // Delegate download clicks
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".slide-dl");
+    if (btn && btn.dataset.slide) {
+      await downloadSlide(btn.dataset.slide, btn.dataset.name, btn);
+      return;
+    }
+    if (e.target.id === "dlAll") {
+      const allBtn = e.target;
+      allBtn.disabled = true;
+      const originalLabel = allBtn.textContent;
+      allBtn.textContent = "Rendering all slides…";
+      const buttons = document.querySelectorAll(".slide-dl");
+      for (let i = 0; i < buttons.length; i++) {
+        allBtn.textContent = `Rendering slide ${i+1} / ${buttons.length}…`;
+        await downloadSlide(buttons[i].dataset.slide, buttons[i].dataset.name, null);
+        await new Promise(r => setTimeout(r, 350));
+      }
+      allBtn.textContent = originalLabel;
+      allBtn.disabled = false;
+    }
   });
 
   syncSlidersToGeo();

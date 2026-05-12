@@ -1066,11 +1066,20 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">Seazn adoption rate <button class="info-btn" data-info='Percentage of symptomatic women in the geography who actively use Seazn. <strong>Benchmark:</strong> <em>5%</em> is a reasonable serviceable target for a category-defining digital health app at scale. Established categories (Calm, Headspace, Noom) capture 10–25% of their addressable user base.'>i</button></span>
+            <span class="input-label-text">% digitally receptive <button class="info-btn" data-info='Share of symptomatic women aged 40–65 who own a smartphone AND are open to using a digital health app like Seazn. <strong>Source: Rock Health Digital Health Consumer Adoption Survey 2024.¹¹</strong> 76% of 55+ used telemedicine in 2022; women use digital health tools at similar rates to men. <em>Base case 60%</em> reflects active willingness, not just smartphone ownership.<br><br>Adjust lower in LMICs (40–50%), higher in tech-forward employer populations (70–80%).'>i</button></span>
+            <span class="input-value" id="techVal">60%</span>
+          </div>
+          <input type="range" id="tech" min="20" max="90" value="60" step="5">
+          <div class="input-help">Symptomatic women open to a digital health app (Rock Health 2024)</div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">Seazn adoption rate <button class="info-btn" data-info='Of <em>digitally receptive symptomatic women</em>, what percentage actually downloads and uses Seazn. <strong>Benchmark:</strong> <em>5%</em> is a reasonable serviceable target for a category-defining digital health app at scale. Established categories (Calm, Headspace, Noom) capture 10–25% of their addressable user base.<br><br>Note: this stacks on top of the digital receptivity filter, so realized penetration of all symptomatic women is roughly <em>tech × adoption</em>.'>i</button></span>
             <span class="input-value" id="adoptVal">5%</span>
           </div>
           <input type="range" id="adopt" min="1" max="25" value="5" step="1">
-          <div class="input-help">Of symptomatic women — serviceable obtainable</div>
+          <div class="input-help">Of digitally receptive symptomatic women</div>
         </div>
 
         <div class="input-group">
@@ -1162,7 +1171,7 @@
             </div>
             <div class="input-group">
               <div class="input-label">
-                <span class="input-label-text">QALY gained per user/yr <button class="info-btn" data-info='<strong>Quality-Adjusted Life Year improvement.</strong> Severe menopause symptoms reduce QALY by <em>0.05–0.10/year</em> in published literature (NICE HEOR). Seazn captures a portion via better symptom management — base case assumes <em>0.03 QALY/user/yr</em>, conservative against the upper bound.'>i</button></span>
+                <span class="input-label-text">QALY gained per user/yr <button class="info-btn" data-info='<strong>What&#39;s a QALY?</strong><br>A <em>Quality-Adjusted Life Year</em>. One year of life in perfect health = <strong>1 QALY</strong>. One year of life with severe menopause symptoms (~30% reduction in quality of life) = <strong>0.7 QALYs</strong>.<br><br><strong>So what does 0.03 QALY/yr mean?</strong><br>It&#39;s the quality-of-life improvement Seazn delivers per user per year. <em>0.03 QALYs ≈ 11 days of perfect-health-equivalent</em> recaptured each year.<br><br><strong>The literature:</strong><br>Severe menopause reduces QALY by <em>0.05–0.10/yr</em> (NICE HEOR studies). Seazn capturing one-third of that = our <em>0.03</em> base case — conservative against the upper bound.'>i</button></span>
                 <span class="input-value" id="ceQalyVal">0.03</span>
               </div>
               <input type="range" id="ceQaly" min="1" max="10" value="3" step="1">
@@ -1256,6 +1265,7 @@
       <li id="ref8"><strong>Grand View Research (2024).</strong> Global menopause market projected at <strong>$24.4B by 2030</strong>, CAGR ~5.4%. Note: this is the addressable product/treatment market, separate from the broader savings opportunity modeled here. <a href="https://www.grandviewresearch.com/industry-analysis/menopause-market" target="_blank">grandviewresearch.com</a></li>
       <li id="ref9"><strong>Method notes.</strong> Per-stakeholder values reflect distinct economic pools and are presented as additive in the consolidated view (employers capture productivity; women capture out-of-pocket and time; public/insurer pools capture system claims). Real-world overlap exists between employer productivity and women's lost income (per <a href="#ref3">ref 3</a>). For investor diligence, the public-health view is the cleanest non-overlapping estimate.</li>
       <li id="ref10"><strong>OECD Employment Outlook 2025 — "Navigating the golden years."</strong> Women's labor force participation rates calibrated for women aged ~45–64: <strong>OECD avg 66.6%</strong>; <strong>US ~70%</strong>; <strong>Canada ~75%</strong>; <strong>UK ~73%</strong>; <strong>EU ~63%</strong>; Global modeled to <strong>~62%</strong> reflecting LMIC mix. Between 2000–2024, employment rose <strong>18.5 percentage points</strong> for women aged 55–59 across the OECD. <a href="https://www.oecd.org/en/publications/oecd-employment-outlook-2025_194a947b-en.html" target="_blank">oecd.org/en/publications/oecd-employment-outlook-2025</a> · LFPR indicator page: <a href="https://www.oecd.org/en/data/indicators/labour-force-participation-rate.html" target="_blank">oecd.org/en/data/indicators/labour-force-participation-rate</a></li>
+      <li id="ref11"><strong>Rock Health — Digital Health Consumer Adoption Survey (2024).</strong> Digital health receptivity calibrated against Rock Health's annual consumer survey: <strong>76% of adults 55+</strong> used telemedicine in 2022 (+12 pp YoY); women adopt digital health tools at rates comparable to men; smartwatch ownership reached <strong>37%</strong> among women. <em>Base case 60%</em> for "% digitally receptive" reflects active willingness to use a digital health app (not just smartphone ownership), inferred from the Rock Health cohort data. <a href="https://rockhealth.com/insights/the-new-era-of-consumer-engagement-insights-from-rock-healths-ninth-annual-consumer-adoption-survey/" target="_blank">rockhealth.com/insights/consumer-adoption-survey</a> · <a href="https://rockhealth.com/insights/women-in-focus-understanding-women-as-digital-health-consumers/" target="_blank">Women in focus: women as digital health consumers</a></li>
     </ol>
   </div>
 
@@ -1397,12 +1407,13 @@
   function compute(regionKey, sliders) {
     const R = REGIONS[regionKey];
     const symp = sliders.symp / 100;
+    const tech = sliders.tech / 100;
     const adopt = sliders.adopt / 100;
     const upliftScale = sliders.uplift / 40; // base scenario assumes 40%
     const empRate = sliders.emp / 100;
 
     const popM = sliders.pop ?? R.pop;
-    const users = popM * 1e6 * symp * adopt;
+    const users = popM * 1e6 * symp * tech * adopt;
 
     const items = buildItems(R.perUser, empRate / 0.50); // base assumes 50% employed
     // Apply uplift scaling
@@ -1647,7 +1658,7 @@
     };
 
     $("icerBanner").innerHTML = `
-      <div class="icer-headline">Cost per QALY gained: <strong>$${Math.round(costPerQALY).toLocaleString()}</strong> ${info("<strong>Cost per QALY</strong> (Quality-Adjusted Life Year) is the single most important metric in health economics. It tells a payer: <em>how much does it cost to gain one year of perfect-health-equivalent quality of life?</em> Below the threshold = funded.<span class=\"formula\">Annual cost per user ÷ QALY gained per user/yr</span>")}</div>
+      <div class="icer-headline">Cost per QALY gained: <strong>$${Math.round(costPerQALY).toLocaleString()}</strong> ${info("<strong>What&#39;s a QALY?</strong><br>A <em>Quality-Adjusted Life Year</em>. One year in perfect health = <strong>1 QALY</strong>. Severe menopause symptoms reduce that to ~0.7 QALYs for that year. The difference is what Seazn helps recover.<br><br><strong>What&#39;s &quot;cost per QALY&quot;?</strong><br>The single most important metric in health economics. It answers: <em>how much does it cost to give someone one year of perfect-health-equivalent quality of life?</em> Lower = better value.<br><br><strong>Why payers care:</strong><br>It&#39;s the universal yardstick. A payer can compare &quot;fund Seazn?&quot; vs. &quot;fund this new cancer drug?&quot; using the same $/QALY measure. Below the threshold (e.g., $50K in Canada) = worth funding.<span class=\"formula\">Annual cost per user ÷ QALY gained per user/yr</span>")}</div>
       <div style="font-size:14px;color:var(--slate);line-height:1.5">${verdict}</div>
       <div class="icer-thresholds">
         ${ICER_THRESHOLDS.map(t => {
@@ -1760,15 +1771,16 @@
 
   function computeFunnel(sliders) {
     const symp = sliders.symp / 100;
+    const tech = sliders.tech / 100;
     const adopt = sliders.adopt / 100;
 
-    // TAM — Global symptomatic population
+    // TAM — Global symptomatic population (unconstrained by tech receptivity — the problem space)
     const tamPopM = REGIONS.global.pop;
     const tamUsers = tamPopM * 1e6 * symp;
     const tamPerUser = REGIONS.global.perUser.public + REGIONS.global.perUser.employer * (sliders.emp/100/0.5) + REGIONS.global.perUser.insurer + REGIONS.global.perUser.women;
     const tamValue = tamUsers * tamPerUser * (sliders.uplift / 40);
 
-    // SAM — Symptomatic women in tier-1 developed markets where Seazn can credibly serve
+    // SAM — Symptomatic + digitally-receptive women in tier-1 developed markets
     let samPopM = 0, samBlendedPerUser = 0;
     SAM_MARKETS.forEach(k => {
       const R = REGIONS[k];
@@ -1780,13 +1792,13 @@
       const pu = R.perUser.public + R.perUser.employer * (sliders.emp/100/0.5) + R.perUser.insurer + R.perUser.women;
       samBlendedPerUser += pu * wt;
     });
-    const samUsers = samPopM * 1e6 * symp;
+    const samUsers = samPopM * 1e6 * symp * tech;
     const samValue = samUsers * samBlendedPerUser * (sliders.uplift / 40);
 
-    // SOM — Current geography × current adoption (what we're modeling above)
+    // SOM — Current geography, full filter chain
     const R = REGIONS[geo];
     const somPopM = sliders.pop;
-    const somUsers = somPopM * 1e6 * symp * adopt;
+    const somUsers = somPopM * 1e6 * symp * tech * adopt;
     const somPerUser = R.perUser.public + R.perUser.employer * (sliders.emp/100/0.5) + R.perUser.insurer + R.perUser.women;
     const somValue = somUsers * somPerUser * (sliders.uplift / 40);
 
@@ -1874,6 +1886,7 @@
 
     const popM = sliders.pop;
     const sympPct = sliders.symp;
+    const techPct = sliders.tech;
     const adoptPct = sliders.adopt;
     const upliftPct = sliders.uplift;
 
@@ -1908,11 +1921,11 @@
         <div class="method-num">1</div>
         <div>
           <div class="method-title">Reachable users</div>
-          <div class="method-desc">Population in the peri/menopause window × those with symptoms × who actually adopt Seazn</div>
+          <div class="method-desc">Population in the peri/menopause window × those with symptoms × those open to digital health × who actually adopt Seazn</div>
           <div class="method-formula">
-            <span class="var">${popStr}</span><span class="op">×</span><span class="var">${sympPct}%</span><span class="op">×</span><span class="var">${adoptPct}%</span>
+            <span class="var">${popStr}</span><span class="op">×</span><span class="var">${sympPct}%</span><span class="op">×</span><span class="var">${techPct}%</span><span class="op">×</span><span class="var">${adoptPct}%</span>
             <span class="eq">=</span><span class="result">${usersStr} users</span>
-            <div style="font-size:11px;color:var(--slate-soft);margin-top:6px">Population × % symptomatic × Seazn adoption rate</div>
+            <div style="font-size:11px;color:var(--slate-soft);margin-top:6px">Population × % symptomatic × % digitally receptive × Seazn adoption rate</div>
           </div>
         </div>
       </div>
@@ -1997,6 +2010,7 @@
     return {
       pop: +$("pop").value,
       symp: +$("symp").value,
+      tech: +$("tech").value,
       adopt: +$("adopt").value,
       uplift: +$("uplift").value,
       emp: +$("emp").value,
@@ -2019,6 +2033,7 @@
     // Slider value labels
     $("popVal").textContent = fmtPop(sliders.pop);
     $("sympVal").textContent = sliders.symp + "%";
+    $("techVal").textContent = sliders.tech + "%";
     $("adoptVal").textContent = sliders.adopt + "%";
     $("upliftVal").textContent = sliders.uplift + "%";
     $("empVal").textContent = sliders.emp + "%";
@@ -2030,7 +2045,8 @@
 
     // Clarifier — make penetration assumption visible
     const totalSympM = sliders.pop * (sliders.symp / 100);
-    $("heroClarifier").innerHTML = `Modeled at <strong>${sliders.adopt}% Seazn adoption</strong> — <strong>${fmtCount(result.users)}</strong> users out of <strong>${fmtPop(totalSympM)}</strong> symptomatic women in ${R.name}`;
+    const techRecepM = totalSympM * (sliders.tech / 100);
+    $("heroClarifier").innerHTML = `Modeled at <strong>${sliders.tech}% digitally receptive × ${sliders.adopt}% adoption</strong> — <strong>${fmtCount(result.users)}</strong> users out of <strong>${fmtPop(totalSympM)}</strong> symptomatic women (${fmtPop(techRecepM)} app-receptive) in ${R.name}`;
 
     // Breakdown
     $("bdTitle").innerHTML = TITLES[view] + ` <span class="geo-tag">${R.name}</span>`;
@@ -2105,7 +2121,7 @@
       render();
     });
   });
-  ["pop","symp","adopt","uplift","emp","ceCost","ceQaly"].forEach(id => {
+  ["pop","symp","tech","adopt","uplift","emp","ceCost","ceQaly"].forEach(id => {
     $(id).addEventListener("input", render);
   });
 

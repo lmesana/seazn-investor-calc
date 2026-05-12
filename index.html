@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Seazn — Healthcare Savings Calculator</title>
+<style>
+  :root {
+    --seazn: #C8667A;
+    --seazn-dark: #A04A5E;
+    --seazn-light: #F5E1E6;
+    --navy: #1A2238;
+    --slate: #4A5568;
+    --slate-soft: #94A3B8;
+    --cream: #FAF6F2;
+    --gold: #D4A574;
+    --teal: #5B8C8A;
+    --plum: #7B5E8E;
+    --line: #E8DCDC;
+    --shadow: 0 4px 24px rgba(26, 34, 56, 0.08);
+    --shadow-lg: 0 12px 40px rgba(26, 34, 56, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .logo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--seazn);
+    letter-spacing: -0.5px;
+  }
+  .tagline { color: var(--slate); font-size: 13px; }
+  .meta { font-size: 12px; color: var(--slate); text-align: right; }
+
+  /* Geography chips */
+  .geo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .geo-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    font-weight: 600;
+  }
+  .chip {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--slate);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .chip:hover { border-color: var(--seazn); color: var(--seazn); }
+  .chip.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  /* Hero */
+  .hero { text-align: center; margin-bottom: 36px; }
+  .hero-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    color: var(--seazn);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .hero-number {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(56px, 10vw, 112px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+    transition: opacity 0.2s;
+  }
+  .hero-label {
+    font-size: 17px;
+    color: var(--slate);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  .hero-clarifier {
+    margin-top: 16px;
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--seazn-light);
+    color: var(--seazn-dark);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .hero-clarifier strong { color: var(--seazn-dark); font-weight: 700; }
+
+  /* Mode tabs (top-level analysis lens) */
+  .mode-tabs {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0 24px;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .mode-tab {
+    padding: 14px 24px;
+    border: none;
+    background: transparent;
+    color: var(--slate);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .mode-tab:hover { color: var(--navy); }
+  .mode-tab.active {
+    color: var(--seazn);
+    border-bottom-color: var(--seazn);
+    font-weight: 600;
+  }
+  .mode-section { display: none; }
+  .mode-section.active { display: block; }
+
+  /* Stakeholder tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin: 32px 0 28px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 6px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tab {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--slate);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--navy); }
+  .tab.active {
+    background: var(--seazn);
+    color: white;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+
+  /* Panel */
+  .panel {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+  .panel + .panel { margin-top: 24px; }
+  .panel h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--seazn);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .panel .sub {
+    font-size: 13px;
+    color: var(--slate);
+    margin-bottom: 20px;
+  }
+
+  /* Inputs */
+  .input-group { margin-bottom: 22px; }
+  .input-group:last-child { margin-bottom: 0; }
+  .input-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .input-label-text { font-size: 14px; color: var(--slate); }
+  .input-value {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--seazn);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(200, 102, 122, 0.4);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--seazn);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(200, 102, 122, 0.4);
+  }
+  .input-help { font-size: 11px; color: var(--slate-soft); margin-top: 4px; }
+
+  /* Breakdown */
+  .breakdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .breakdown-title {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    color: var(--navy);
+  }
+  .breakdown-subtotal {
+    font-size: 14px;
+    color: var(--slate);
+  }
+  .breakdown-subtotal strong {
+    color: var(--seazn);
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+  .line-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+  .line-item:last-child { border-bottom: none; }
+  .line-name { font-weight: 600; color: var(--navy); margin-bottom: 4px; font-size: 15px; }
+  .line-desc { font-size: 12px; color: var(--slate); }
+  .line-value {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--seazn);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .line-per { font-size: 11px; color: var(--slate-soft); text-align: right; display: block; }
+
+  /* Reference markers */
+  sup.ref {
+    color: var(--seazn);
+    font-weight: 600;
+    cursor: pointer;
+    padding-left: 1px;
+    font-size: 10px;
+  }
+  sup.ref a {
+    color: inherit;
+    text-decoration: none;
+  }
+  sup.ref a:hover { text-decoration: underline; }
+
+  /* Charts */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 720px) { .chart-grid { grid-template-columns: 1fr; } }
+  .chart-wrap { width: 100%; }
+  .chart-title {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .chart-sub {
+    font-size: 12px;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .axis-label { font-size: 11px; fill: var(--slate); font-family: -apple-system, sans-serif; }
+  .bar-label { font-size: 12px; fill: var(--navy); font-family: -apple-system, sans-serif; font-weight: 500; }
+  .bar-value { font-size: 12px; fill: var(--navy); font-family: -apple-system, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .grid-line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .stat {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--seazn);
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .stat-value {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-sub { font-size: 12px; color: var(--slate); margin-top: 4px; }
+
+  /* Pitch */
+  .pitch {
+    margin-top: 40px;
+    padding: 40px;
+    background: var(--navy);
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+  }
+  .pitch-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .pitch-headline {
+    font-family: Georgia, serif;
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.25;
+    max-width: 720px;
+    margin: 0 auto 16px;
+  }
+  .pitch-sub { color: #B8C0D4; max-width: 580px; margin: 0 auto; font-size: 15px; }
+
+  /* Sources */
+  .sources {
+    margin-top: 40px;
+    padding: 32px;
+    background: white;
+    border-radius: 16px;
+    border-left: 4px solid var(--gold);
+  }
+  .sources h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .sources .sub {
+    font-size: 13px;
+    color: var(--slate);
+    margin-bottom: 20px;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+  }
+  .sources li {
+    font-size: 13px;
+    color: var(--slate);
+    padding: 10px 0 10px 32px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    counter-increment: src;
+    line-height: 1.55;
+  }
+  .sources li:last-child { border-bottom: none; }
+  .sources li::before {
+    content: counter(src);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 22px;
+    height: 22px;
+    background: var(--seazn-light);
+    color: var(--seazn-dark);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sources strong { color: var(--navy); }
+  .sources li:target { background: #FFF8EA; margin: 0 -8px; padding-left: 40px; padding-right: 8px; border-radius: 8px; }
+  .sources a { color: var(--seazn-dark); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  /* Password gate */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--cream);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #gate.hidden { display: none; }
+  .gate-card {
+    background: white;
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+  .gate-logo {
+    font-family: Georgia, serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--seazn);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .gate-sub { color: var(--slate); font-size: 14px; margin-bottom: 28px; }
+  .gate-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .gate-input:focus { border-color: var(--seazn); }
+  .gate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--seazn);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .gate-btn:hover { background: var(--seazn-dark); }
+  .gate-error {
+    color: var(--seazn-dark);
+    font-size: 13px;
+    margin-top: 12px;
+    min-height: 18px;
+  }
+  .gate-footnote {
+    margin-top: 24px;
+    font-size: 11px;
+    color: var(--slate-soft);
+  }
+
+  .geo-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--seazn-light);
+    color: var(--seazn-dark);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* Methodology */
+  .method-step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .method-step:last-child { border-bottom: none; }
+  .method-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--seazn-light);
+    color: var(--seazn-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: Georgia, serif;
+  }
+  .method-title {
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .method-desc {
+    font-size: 12px;
+    color: var(--slate);
+    margin-bottom: 12px;
+  }
+  .method-formula {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 14px;
+    color: var(--slate);
+    background: var(--cream);
+    padding: 12px 16px;
+    border-radius: 8px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .method-formula .var { color: var(--navy); font-weight: 600; }
+  .method-formula .op { color: var(--slate-soft); margin: 0 6px; }
+  .method-formula .result {
+    color: var(--seazn);
+    font-weight: 700;
+    font-size: 16px;
+    font-family: Georgia, serif;
+    padding-left: 8px;
+  }
+  .method-formula .eq { color: var(--slate-soft); margin: 0 8px; }
+
+  .derivation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .derivation-card {
+    background: var(--cream);
+    padding: 18px;
+    border-radius: 10px;
+    border-top: 3px solid var(--seazn);
+  }
+  .derivation-card.public { border-top-color: var(--teal); }
+  .derivation-card.employer { border-top-color: var(--seazn); }
+  .derivation-card.insurer { border-top-color: var(--plum); }
+  .derivation-card.women { border-top-color: var(--gold); }
+  .derivation-stake {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .derivation-total {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  .derivation-total small {
+    font-size: 11px;
+    color: var(--slate);
+    font-weight: 400;
+    font-family: -apple-system, sans-serif;
+    margin-left: 4px;
+  }
+  .derivation-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--slate);
+    padding: 4px 0;
+  }
+  .derivation-line .val {
+    color: var(--navy);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .method-section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    font-weight: 600;
+    margin: 28px 0 12px;
+  }
+
+  /* Funnel */
+  .funnel-panel {
+    margin-top: 32px;
+    background: white;
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: var(--shadow);
+  }
+  .funnel-panel h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--seazn);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .funnel-panel .sub { font-size: 13px; color: var(--slate); margin-bottom: 28px; max-width: 640px; }
+  .funnel-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 820px) { .funnel-layout { grid-template-columns: 1fr; } }
+  .funnel-svg { width: 100%; }
+  .funnel-tier-text { font-family: -apple-system, sans-serif; }
+  .funnel-tier-eyebrow {
+    font-size: 11px;
+    fill: white;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .funnel-tier-name {
+    font-size: 14px;
+    fill: white;
+    font-weight: 600;
+  }
+  .funnel-tier-stat {
+    font-size: 13px;
+    fill: white;
+    font-family: Georgia, serif;
+    font-weight: 700;
+  }
+
+  .funnel-details { display: flex; flex-direction: column; gap: 16px; }
+  .funnel-row {
+    padding: 18px 20px;
+    border-radius: 12px;
+    border-left: 4px solid;
+    background: var(--cream);
+  }
+  .funnel-row.tam { border-left-color: #E8DCDC; }
+  .funnel-row.sam { border-left-color: var(--seazn); }
+  .funnel-row.som { border-left-color: var(--navy); background: #F5E1E6; }
+  .funnel-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .funnel-row-tier {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    font-weight: 700;
+  }
+  .funnel-row-value {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+  }
+  .funnel-row-name {
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .funnel-row-desc {
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .funnel-row-users {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--slate);
+  }
+  .funnel-row-users strong { color: var(--navy); font-weight: 700; }
+
+  /* Cost-effectiveness panel */
+  .ce-assumptions {
+    background: var(--cream);
+    padding: 20px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 720px) { .ce-assumptions { grid-template-columns: 1fr; } }
+  .ce-assumptions .input-group { margin-bottom: 0; }
+
+  .ce-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .ce-card {
+    background: var(--cream);
+    padding: 18px;
+    border-radius: 10px;
+    border-top: 3px solid var(--seazn);
+  }
+  .ce-card.cost { border-top-color: var(--slate); background: #F5F0EC; }
+  .ce-card.net { border-top-color: var(--teal); }
+  .ce-card.roi { border-top-color: var(--gold); }
+  .ce-card.payback { border-top-color: var(--plum); }
+  .ce-card-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .ce-card-value {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .ce-card-sub { font-size: 11px; color: var(--slate); margin-top: 6px; }
+
+  .icer-banner {
+    margin-top: 8px;
+    padding: 24px;
+    background: linear-gradient(135deg, #FFF8EA 0%, #F5E1E6 100%);
+    border-radius: 12px;
+    border-left: 4px solid var(--gold);
+  }
+  .icer-headline {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .icer-headline strong { color: var(--seazn-dark); }
+  .icer-thresholds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .icer-threshold-card {
+    background: white;
+    padding: 14px 16px;
+    border-radius: 8px;
+  }
+  .icer-threshold-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .icer-threshold-value {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    color: var(--navy);
+    font-weight: 700;
+  }
+  .icer-threshold-note { font-size: 11px; color: var(--slate); margin-top: 4px; }
+
+  .alts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .alts-table th, .alts-table td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .alts-table th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    font-weight: 600;
+  }
+  .alts-table td.num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--navy); }
+  .alts-table tr.seazn { background: var(--seazn-light); }
+  .alts-table tr.seazn td { color: var(--seazn-dark); font-weight: 600; }
+  .alts-table tr.seazn td:first-child::before { content: "★ "; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">seazn</div>
+    <div class="gate-sub">Investor preview — healthcare savings calculator</div>
+    <input type="password" class="gate-input" id="gatePw" placeholder="Access code" autofocus>
+    <button class="gate-btn" id="gateBtn">View calculator</button>
+    <div class="gate-error" id="gateErr"></div>
+    <div class="gate-footnote">For authorized viewers only · Contact lauramesana15@gmail.com</div>
+  </div>
+</div>
+
+<script>
+  // Password gate — simple deterrent; not real security (source-viewable on public repos).
+  // Change ACCESS_CODE below to rotate the password.
+  const ACCESS_CODE = "compass2026";
+  (function() {
+    const gate = document.getElementById("gate");
+    if (sessionStorage.getItem("seazn_unlocked") === "1") { gate.classList.add("hidden"); return; }
+    document.body.style.overflow = "hidden";
+    function tryUnlock() {
+      const v = document.getElementById("gatePw").value.trim().toLowerCase();
+      if (v === ACCESS_CODE) {
+        sessionStorage.setItem("seazn_unlocked", "1");
+        gate.classList.add("hidden");
+        document.body.style.overflow = "";
+      } else {
+        document.getElementById("gateErr").textContent = "Incorrect code";
+      }
+    }
+    document.getElementById("gateBtn").addEventListener("click", tryUnlock);
+    document.getElementById("gatePw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+  })();
+</script>
+
+<div class="container">
+
+  <header>
+    <div class="brand">
+      <div class="logo">seazn</div>
+      <div class="tagline">Healthcare Savings Calculator</div>
+    </div>
+    <div class="meta">
+      For investor conversations · v2<br>
+      seaznhealth.com · seaznapp.com
+    </div>
+  </header>
+
+  <div class="geo-row">
+    <div class="geo-label">Geography</div>
+    <button class="chip active" data-geo="global">🌍 Global</button>
+    <button class="chip" data-geo="us">🇺🇸 United States</button>
+    <button class="chip" data-geo="canada">🇨🇦 Canada</button>
+    <button class="chip" data-geo="uk">🇬🇧 United Kingdom</button>
+    <button class="chip" data-geo="eu">🇪🇺 European Union</button>
+  </div>
+
+  <section class="hero">
+    <div class="hero-eyebrow" id="heroEyebrow">Total Annual Value Created</div>
+    <div class="hero-number" id="heroNumber">$0</div>
+    <div class="hero-label" id="heroLabel">Across the global perimenopause &amp; menopause population — money saved, productivity recaptured, and value returned to women, employers, insurers, and public health systems.</div>
+    <div class="hero-clarifier" id="heroClarifier"></div>
+  </section>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-view="all">All Stakeholders</button>
+    <button class="tab" data-view="public">Public Health</button>
+    <button class="tab" data-view="employer">Employers</button>
+    <button class="tab" data-view="insurer">Private Insurers</button>
+    <button class="tab" data-view="women">Women</button>
+  </div>
+
+  <div class="mode-tabs" id="modeTabs">
+    <button class="mode-tab active" data-mode="savings">Savings View</button>
+    <button class="mode-tab" data-mode="methodology">Methodology</button>
+    <button class="mode-tab" data-mode="economics">Cost-Effectiveness</button>
+  </div>
+
+  <div class="grid">
+
+    <aside>
+      <div class="panel">
+        <h3>Assumptions</h3>
+        <div class="sub" id="assumptionsSub">Calibrated to global cohort. Adjust to stress-test.</div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">Women in peri / menopause</span>
+            <span class="input-value" id="popVal">1.10B</span>
+          </div>
+          <input type="range" id="pop" min="1" max="2000" value="1100" step="1">
+          <div class="input-help" id="popHelp">Population aged 40–65 in selected geography</div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">% experiencing symptoms</span>
+            <span class="input-value" id="sympVal">80%</span>
+          </div>
+          <input type="range" id="symp" min="50" max="95" value="80" step="5">
+          <div class="input-help">75–85% of women report symptoms (NAMS, IMS)</div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">Seazn adoption rate</span>
+            <span class="input-value" id="adoptVal">5%</span>
+          </div>
+          <input type="range" id="adopt" min="1" max="25" value="5" step="1">
+          <div class="input-help">Of symptomatic women — serviceable obtainable</div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">Symptom-management uplift</span>
+            <span class="input-value" id="upliftVal">40%</span>
+          </div>
+          <input type="range" id="uplift" min="10" max="70" value="40" step="5">
+          <div class="input-help">Reduction in unmanaged symptom burden vs. status quo</div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span class="input-label-text">% of women employed</span>
+            <span class="input-value" id="empVal">50%</span>
+          </div>
+          <input type="range" id="emp" min="30" max="80" value="50" step="5">
+          <div class="input-help">Applied to employer-side savings only</div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <!-- Mode: Savings View -->
+      <div class="mode-section active" data-mode="savings">
+        <div class="panel">
+          <div class="breakdown-header">
+            <div class="breakdown-title" id="bdTitle">Consolidated View</div>
+            <div class="breakdown-subtotal">Total: <strong id="bdSubtotal">$0</strong></div>
+          </div>
+          <div id="lineItems"></div>
+        </div>
+
+        <div class="panel">
+          <div class="chart-grid">
+            <div class="chart-wrap">
+              <div class="chart-title">Value by stakeholder</div>
+              <div class="chart-sub">Annual value pool, current geography</div>
+              <svg id="chartStake" viewBox="0 0 400 240"></svg>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Geography comparison</div>
+              <div class="chart-sub">Same scenario across all regions, current view</div>
+              <svg id="chartGeo" viewBox="0 0 400 240"></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="chart-title">5-year cumulative value created</div>
+          <div class="chart-sub" id="growthSub">Compounding societal value at current adoption</div>
+          <svg id="chartGrowth" viewBox="0 0 800 260"></svg>
+        </div>
+      </div>
+
+      <!-- Mode: Methodology -->
+      <div class="mode-section" data-mode="methodology">
+        <div class="panel" id="methodologyPanel">
+          <h3>Methodology</h3>
+          <div class="sub" id="methodSub">How the headline number is calculated, step by step. Updates live with your assumptions, geography, and stakeholder selection.</div>
+
+          <div class="method-section-label">The calculation chain</div>
+          <div id="methodSteps"></div>
+
+          <div class="method-section-label">How per-user values are built</div>
+          <div class="derivation-grid" id="derivationGrid"></div>
+
+          <div class="method-section-label">Calibration &amp; honesty notes</div>
+          <div class="method-desc" style="font-size:13px;line-height:1.6">
+            Per-user dollar values are calibrated against published evidence and scaled by the <strong>symptom-management uplift</strong> slider, which represents Seazn's reduction in unmanaged symptom burden vs. the status quo. The base scenario assumes a 40% uplift; the slider scales all line items linearly around that baseline. Employer-side savings scale with the <strong>% employed</strong> slider (base 50%). Public-system, insurer, and women's-pool values are independent of employment status. The four stakeholder pools have <strong>some real-world overlap</strong> — particularly between employer productivity loss and women's lost income (per <a href="#ref3">ref 3</a>). For investor diligence, the public-health view alone is the cleanest non-overlapping estimate.
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode: Cost-Effectiveness -->
+      <div class="mode-section" data-mode="economics">
+        <div class="panel">
+          <h3>Cost-Effectiveness &amp; Budget Impact</h3>
+          <div class="sub">The view healthcare-savvy investors and payers want: per-user economics, ROI to the payer, 5-year budget impact, and ICER against published thresholds.</div>
+
+          <div class="ce-assumptions">
+            <div class="input-group">
+              <div class="input-label">
+                <span class="input-label-text">Seazn cost to payer per user/yr</span>
+                <span class="input-value" id="ceCostVal">$80</span>
+              </div>
+              <input type="range" id="ceCost" min="20" max="300" value="80" step="10">
+              <div class="input-help">Blended pricing — B2C ~$120, employer ~$80, system contract ~$40</div>
+            </div>
+            <div class="input-group">
+              <div class="input-label">
+                <span class="input-label-text">QALY gained per user/yr</span>
+                <span class="input-value" id="ceQalyVal">0.03</span>
+              </div>
+              <input type="range" id="ceQaly" min="1" max="10" value="3" step="1">
+              <div class="input-help">Severe menopause reduces QALY ~0.05–0.10; Seazn captures a portion via symptom management</div>
+            </div>
+          </div>
+
+          <div class="method-section-label">Unit economics (per user, per year)</div>
+          <div class="ce-cards" id="ceCards"></div>
+
+          <div class="method-section-label">5-year budget impact for the payer</div>
+          <div class="chart-sub" style="margin-bottom:16px">Cost of Seazn (navy) vs. value created (Seazn pink). At sustained adoption, the payer is in the black from Year 1.</div>
+          <svg id="chartBudget" viewBox="0 0 800 280"></svg>
+          <div id="budgetSummary" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px"></div>
+
+          <div class="method-section-label">Cost-effectiveness ratio (ICER)</div>
+          <div class="icer-banner" id="icerBanner"></div>
+
+          <div class="method-section-label">Compared to alternatives</div>
+          <div class="chart-sub" style="margin-bottom:12px">Annual cost and value per symptomatic woman across common approaches. Net value = value created − annual cost.</div>
+          <table class="alts-table">
+            <thead>
+              <tr>
+                <th>Approach</th>
+                <th>Annual cost / woman</th>
+                <th>Value created / woman</th>
+                <th>Net value / woman</th>
+                <th>ROI</th>
+              </tr>
+            </thead>
+            <tbody id="altsBody"></tbody>
+          </table>
+          <div class="method-desc" style="font-size:12px;line-height:1.6;margin-top:16px">
+            HRT, CBT, and supplements are point treatments — Seazn is a navigation &amp; coordination layer that gets the right woman to the right treatment, so it is complementary, not a substitute. The "Seazn + appropriate clinical care" row reflects realistic combined impact at full population coverage.
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Reachable users</div>
+      <div class="stat-value" id="statUsers">0</div>
+      <div class="stat-sub">at modeled adoption</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Value per user / yr</div>
+      <div class="stat-value" id="statPerUser">$0</div>
+      <div class="stat-sub" id="statPerUserSub">across all stakeholders</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">5-year opportunity</div>
+      <div class="stat-value" id="stat5Yr">$0</div>
+      <div class="stat-sub">cumulative value created</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Implied ARR ceiling</div>
+      <div class="stat-value" id="statArr">$0</div>
+      <div class="stat-sub">at 10% value capture</div>
+    </div>
+  </div>
+
+  <div class="funnel-panel">
+    <h3>Market sizing — TAM · SAM · SOM</h3>
+    <div class="sub">How Seazn's market opportunity narrows from "all women in peri/menopause globally" down to "users Seazn can realistically capture in 3–5 years." SOM scales with the adoption slider above.</div>
+
+    <div class="funnel-layout">
+      <svg id="chartFunnel" class="funnel-svg" viewBox="0 0 500 320"></svg>
+      <div class="funnel-details" id="funnelDetails"></div>
+    </div>
+  </div>
+
+  <div class="pitch">
+    <div class="pitch-eyebrow">The Investor Case</div>
+    <div class="pitch-headline" id="pitchLine">A category-defining bet on the most underserved healthcare cohort on the planet.</div>
+    <div class="pitch-sub" id="pitchSub">1.1B women globally. Decade-long symptom windows. Fragmented systems. Seazn is the navigation layer that turns invisible suffering into measurable value — for women, employers, insurers, and the systems that serve them.</div>
+  </div>
+
+  <div class="sources">
+    <h4>Sources &amp; Citations</h4>
+    <div class="sub">All figures cited inline. Click superscript numbers above to jump to the source.</div>
+    <ol>
+      <li id="ref1"><strong>UN World Population Prospects (2024)</strong> — Global cohort projections. Over 1 billion women globally will be in peri/menopause or postmenopause by 2025, ~500M aged 45–55 by 2030. <a href="https://population.un.org/wpp/" target="_blank">population.un.org/wpp</a></li>
+      <li id="ref2"><strong>Faubion S, et al. "Impact of Menopause Symptoms on Women in the Workplace."</strong> Mayo Clinic Proceedings, 98(6):833–845, June 2023. Estimated <strong>$1.8B/yr</strong> in lost work time and <strong>$26.6B/yr</strong> when medical expenses included, in the US alone. n=4,440 employed women aged 45–60. <a href="https://www.mayoclinicproceedings.org/article/S0025-6196(23)00112-X/abstract" target="_blank">mayoclinicproceedings.org</a></li>
+      <li id="ref3"><strong>Menopause Foundation of Canada / Deloitte Canada (Oct 2023).</strong> "Menopause and Work in Canada." <strong>$3.5B</strong> annual cost to Canadian economy: <strong>$237M</strong> in employer productivity loss, <strong>$3.3B</strong> in lost income to women, <strong>540,000</strong> lost workdays/year. <a href="https://menopausefoundationcanada.ca/menopause-and-work-in-canada-report/" target="_blank">menopausefoundationcanada.ca</a></li>
+      <li id="ref4"><strong>CIPD (Oct 2023).</strong> "Menopause in the Workplace: Employee Experiences in 2023." Survey of 2,000+ UK women aged 40–60. <strong>67%</strong> report negative work impact; <strong>17%</strong> considered leaving; <strong>6%</strong> have left their job. <a href="https://www.cipd.org/en/knowledge/reports/menopause-workplace-experiences/" target="_blank">cipd.org</a></li>
+      <li id="ref5"><strong>Fawcett Society (2022).</strong> "Menopause and the Workplace." <strong>1 in 10 women</strong> who worked during menopause have left a job due to symptoms; 14M working days lost annually in UK; ~£1.8B in lost productivity. <a href="https://www.fawcettsociety.org.uk/menopauseandtheworkplace" target="_blank">fawcettsociety.org.uk</a></li>
+      <li id="ref6"><strong>AJMC / Kindra Health.</strong> "In the Misdiagnosis of Menopause." <strong>1 in 3 women aged 45–54</strong> have been diagnosed with another condition before menopause was identified. 60% find clinician advice unhelpful. <strong>25%</strong> of women 50–65 have never been told they were in peri/menopause despite symptoms. <a href="https://www.ajmc.com/view/contributor-in-the-misdiagnosis-of-menopause-what-needs-to-change-" target="_blank">ajmc.com</a></li>
+      <li id="ref7"><strong>NAMS / The Menopause Society.</strong> 75–85% of women experience menopause-related symptoms; ~25% report severe symptoms affecting quality of life. <a href="https://menopause.org/" target="_blank">menopause.org</a></li>
+      <li id="ref8"><strong>Grand View Research (2024).</strong> Global menopause market projected at <strong>$24.4B by 2030</strong>, CAGR ~5.4%. Note: this is the addressable product/treatment market, separate from the broader savings opportunity modeled here. <a href="https://www.grandviewresearch.com/industry-analysis/menopause-market" target="_blank">grandviewresearch.com</a></li>
+      <li id="ref9"><strong>Method notes.</strong> Per-stakeholder values reflect distinct economic pools and are presented as additive in the consolidated view (employers capture productivity; women capture out-of-pocket and time; public/insurer pools capture system claims). Real-world overlap exists between employer productivity and women's lost income (per <a href="#ref3">ref 3</a>). For investor diligence, the public-health view is the cleanest non-overlapping estimate.</li>
+    </ol>
+  </div>
+
+</div>
+
+<script>
+  // ── Region data ─────────────────────────────────────────────────────────
+  const REGIONS = {
+    global: {
+      name: "Global",
+      pop: 1100, popMax: 2000,
+      emp: 50,
+      perUser: { public: 400, employer: 1200, insurer: 400, women: 700 },
+      label: "Across the global perimenopause &amp; menopause population — money saved, productivity recaptured, and value returned to women, employers, insurers, and public health systems.",
+      pitchSub: "1.1B women globally. Decade-long symptom windows. Fragmented systems. Seazn is the navigation layer that turns invisible suffering into measurable value.",
+      assumptionsSub: "Calibrated to global cohort¹. Adjust to stress-test.",
+    },
+    us: {
+      name: "United States",
+      pop: 50, popMax: 80,
+      emp: 62,
+      perUser: { public: 850, employer: 2400, insurer: 850, women: 1400 },
+      label: "Across the US perimenopause &amp; menopause population — claims avoided, productivity recaptured, and out-of-pocket costs returned to women.",
+      pitchSub: "50M American women. Mayo Clinic² puts the US productivity loss alone at $1.8B/yr — and $26.6B/yr with medical costs included.",
+      assumptionsSub: "Calibrated to US (Census, Mayo Clinic²). Adjust to stress-test.",
+    },
+    canada: {
+      name: "Canada",
+      pop: 6.5, popMax: 12,
+      emp: 70,
+      perUser: { public: 480, employer: 1700, insurer: 200, women: 900 },
+      label: "Across the Canadian peri/menopause population — public system savings, employer productivity gains, and dollars returned to women.",
+      pitchSub: "Menopause Foundation Canada³ puts the unmanaged cost at $3.5B/yr — $3.3B borne by women themselves. Seazn is Canadian-built for this market.",
+      assumptionsSub: "Calibrated to Canada (Stats Canada, MFC³). Adjust to stress-test.",
+    },
+    uk: {
+      name: "United Kingdom",
+      pop: 9, popMax: 15,
+      emp: 70,
+      perUser: { public: 450, employer: 1900, insurer: 180, women: 750 },
+      label: "Across the UK peri/menopause population — NHS savings, employer productivity gains, and dollars returned to women.",
+      pitchSub: "CIPD⁴ reports 67% of women see negative work impact; Fawcett⁵ says 1 in 10 have left jobs. 14M working days lost yearly.",
+      assumptionsSub: "Calibrated to UK (ONS, CIPD⁴, Fawcett⁵). Adjust to stress-test.",
+    },
+    eu: {
+      name: "European Union",
+      pop: 65, popMax: 100,
+      emp: 60,
+      perUser: { public: 500, employer: 1700, insurer: 280, women: 800 },
+      label: "Across the EU peri/menopause population — public system savings, employer productivity gains, and dollars returned to women.",
+      pitchSub: "65M women in the EU peri/menopause window. Public systems carry most of the cost — and most of the savings opportunity.",
+      assumptionsSub: "Calibrated to EU (Eurostat). Adjust to stress-test.",
+    },
+  };
+
+  // ── Line item templates (per-user $ values come from REGIONS, shape from here) ──
+  function buildItems(perUser, employmentMult) {
+    return {
+      public: [
+        { name: "Reduced GP &amp; specialist visits", desc: "1 in 3 women aged 45–54 diagnosed with another condition before menopause was identified⁶", weight: 0.38 },
+        { name: "Avoided ER &amp; urgent care episodes", desc: "Cardiac, anxiety, sleep ER visits from unmanaged symptoms", weight: 0.12 },
+        { name: "Fewer unnecessary diagnostics", desc: "Imaging, labs, referrals for symptoms misattributed elsewhere", weight: 0.19 },
+        { name: "Earlier chronic disease intervention", desc: "Osteoporosis, CVD, T2D risk caught in the midlife window", weight: 0.31 },
+      ].map(it => ({ ...it, value: it.weight * perUser.public })),
+      employer: [
+        { name: "Reduced absenteeism", desc: "Sick days from severe symptoms and sleep disruption", weight: 0.33 },
+        { name: "Recaptured presenteeism", desc: "Brain fog, fatigue, mood — the silent productivity tax², ⁴", weight: 0.50 },
+        { name: "Retention of senior talent", desc: "1 in 10 women leave jobs during the menopause transition⁵", weight: 0.17 },
+      ].map(it => ({ ...it, value: it.weight * perUser.employer * employmentMult })),
+      insurer: [
+        { name: "Avoided inappropriate prescriptions", desc: "SSRIs, sleep meds, anxiolytics prescribed for menopause⁶", weight: 0.23 },
+        { name: "Fewer specialist referral claims", desc: "Cardiology, neurology, psychiatry workups for symptoms", weight: 0.31 },
+        { name: "Reduced chronic disease claims", desc: "Downstream osteoporosis, CVD, T2D claim reduction", weight: 0.46 },
+      ].map(it => ({ ...it, value: it.weight * perUser.insurer })),
+      women: [
+        { name: "Out-of-pocket on misdirected care", desc: "Naturopaths, supplements, alternative specialists", weight: 0.38 },
+        { name: "Time cost of system navigation", desc: "~15 hrs/year searching, booking, waiting (valued at local wage)", weight: 0.43 },
+        { name: "Reduced supplement &amp; DTC spend", desc: "Right-sized regimen vs. trial-and-error stack", weight: 0.19 },
+      ].map(it => ({ ...it, value: it.weight * perUser.women })),
+    };
+  }
+
+  const META = {
+    all:      { eyebrow: "Total Annual Value Created",          pitch: "A category-defining bet on the most underserved healthcare cohort on the planet." },
+    public:   { eyebrow: "Annual Savings — Public Healthcare",   pitch: "The cheapest treatment a health system can fund is the one that prevents the next four visits." },
+    employer: { eyebrow: "Annual Value — Employers",             pitch: "Menopause is the silent leak in your senior workforce. Seazn is the patch." },
+    insurer:  { eyebrow: "Annual Savings — Private Insurers",    pitch: "Pay for navigation now, or pay for the claims cascade later." },
+    women:    { eyebrow: "Annual Value Returned to Women",       pitch: "Half the population. A decade-long transition. And until now, no map." },
+  };
+
+  const TITLES = {
+    all: "Consolidated View",
+    public: "Public Health Systems",
+    employer: "Employer Value",
+    insurer: "Private Insurer Savings",
+    women: "Value to Women",
+  };
+
+  const STAKE_COLORS = {
+    public: "#5B8C8A",
+    employer: "#C8667A",
+    insurer: "#7B5E8E",
+    women: "#D4A574",
+  };
+
+  // ── State ────────────────────────────────────────────────────────────────
+  let geo = "global";
+  let view = "all";
+  let mode = "savings";
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+
+  function fmtMoney(n, compact = true) {
+    if (!isFinite(n)) return "$0";
+    const abs = Math.abs(n);
+    if (compact) {
+      if (abs >= 1e12) return "$" + (n / 1e12).toFixed(2) + "T";
+      if (abs >= 1e9)  return "$" + (n / 1e9).toFixed(1) + "B";
+      if (abs >= 1e6)  return "$" + (n / 1e6).toFixed(1) + "M";
+      if (abs >= 1e3)  return "$" + (n / 1e3).toFixed(1) + "K";
+    }
+    return "$" + Math.round(n).toLocaleString();
+  }
+  function fmtCount(n) {
+    if (n >= 1e9) return (n / 1e9).toFixed(2) + "B";
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+    if (n >= 1e3) return (n / 1e3).toFixed(0) + "K";
+    return Math.round(n).toLocaleString();
+  }
+  function fmtPop(m) { return m >= 1000 ? (m/1000).toFixed(2) + "B" : (m >= 10 ? m.toFixed(0) : m.toFixed(1)) + "M"; }
+
+  // ── Core math ────────────────────────────────────────────────────────────
+  function compute(regionKey, sliders) {
+    const R = REGIONS[regionKey];
+    const symp = sliders.symp / 100;
+    const adopt = sliders.adopt / 100;
+    const upliftScale = sliders.uplift / 40; // base scenario assumes 40%
+    const empRate = sliders.emp / 100;
+
+    const popM = sliders.pop ?? R.pop;
+    const users = popM * 1e6 * symp * adopt;
+
+    const items = buildItems(R.perUser, empRate / 0.50); // base assumes 50% employed
+    // Apply uplift scaling
+    Object.values(items).forEach(arr => arr.forEach(it => it.value *= upliftScale));
+
+    const totals = {
+      public:   items.public.reduce((s,x)=>s+x.value, 0),
+      employer: items.employer.reduce((s,x)=>s+x.value, 0),
+      insurer:  items.insurer.reduce((s,x)=>s+x.value, 0),
+      women:    items.women.reduce((s,x)=>s+x.value, 0),
+    };
+    totals.all = totals.public + totals.employer + totals.insurer + totals.women;
+
+    const totalMap = {};
+    Object.keys(totals).forEach(k => totalMap[k] = totals[k] * users);
+
+    return { users, items, perUser: totals, total: totalMap };
+  }
+
+  // ── Charts ───────────────────────────────────────────────────────────────
+  function renderStakeChart(perStake, total) {
+    const stakes = ["public", "employer", "insurer", "women"];
+    const labels = { public: "Public Health", employer: "Employers", insurer: "Insurers", women: "Women" };
+    const max = Math.max(...stakes.map(s => perStake[s])) || 1;
+    const w = 400, h = 240, x0 = 110, barH = 28, gap = 18, barWMax = 230;
+
+    let svg = "";
+    stakes.forEach((s, i) => {
+      const y = 24 + i * (barH + gap);
+      const bw = (perStake[s] / max) * barWMax;
+      svg += `
+        <text x="${x0 - 12}" y="${y + barH/2 + 4}" text-anchor="end" class="bar-label">${labels[s]}</text>
+        <rect x="${x0}" y="${y}" width="${barWMax}" height="${barH}" fill="#F5F0EC" rx="4"/>
+        <rect x="${x0}" y="${y}" width="${bw}" height="${barH}" fill="${STAKE_COLORS[s]}" rx="4">
+          <animate attributeName="width" from="0" to="${bw}" dur="0.6s" fill="freeze"/>
+        </rect>
+        <text x="${x0 + bw + 8}" y="${y + barH/2 + 4}" class="bar-value">${fmtMoney(perStake[s])}</text>
+      `;
+    });
+    $("chartStake").setAttribute("viewBox", `0 0 ${w} ${h}`);
+    $("chartStake").innerHTML = svg;
+  }
+
+  function renderGeoChart(currentSliders) {
+    const regions = ["global", "us", "canada", "uk", "eu"];
+    const names = { global: "Global", us: "US", canada: "Canada", uk: "UK", eu: "EU" };
+    const values = regions.map(r => {
+      const s = { ...currentSliders, pop: REGIONS[r].pop, emp: REGIONS[r].emp };
+      return compute(r, s).total[view];
+    });
+    const max = Math.max(...values) || 1;
+    const w = 400, h = 240, padL = 16, padR = 16, padB = 36, padT = 24;
+    const barWMax = (w - padL - padR) / regions.length - 8;
+    const chartH = h - padT - padB;
+
+    let svg = "";
+    regions.forEach((r, i) => {
+      const x = padL + i * (barWMax + 8) + 4;
+      const bh = (values[i] / max) * chartH;
+      const y = padT + chartH - bh;
+      const isActive = r === geo;
+      const color = isActive ? "#C8667A" : "#E8DCDC";
+      const txtColor = isActive ? "#1A2238" : "#94A3B8";
+      svg += `
+        <rect x="${x}" y="${y}" width="${barWMax}" height="${bh}" fill="${color}" rx="6">
+          <animate attributeName="height" from="0" to="${bh}" dur="0.6s" fill="freeze"/>
+          <animate attributeName="y" from="${padT + chartH}" to="${y}" dur="0.6s" fill="freeze"/>
+        </rect>
+        <text x="${x + barWMax/2}" y="${y - 6}" text-anchor="middle" class="bar-value" fill="${txtColor}" style="font-size:11px">${fmtMoney(values[i])}</text>
+        <text x="${x + barWMax/2}" y="${h - 14}" text-anchor="middle" class="axis-label" style="font-weight:${isActive ? 700 : 400}">${names[r]}</text>
+      `;
+    });
+    $("chartGeo").setAttribute("viewBox", `0 0 ${w} ${h}`);
+    $("chartGeo").innerHTML = svg;
+  }
+
+  function renderGrowthChart(annual) {
+    const years = 5;
+    const cumulative = [];
+    for (let i = 1; i <= years; i++) cumulative.push(annual * i);
+    const max = cumulative[cumulative.length - 1] || 1;
+    const w = 800, h = 260, padL = 60, padR = 24, padB = 36, padT = 16;
+    const chartW = w - padL - padR, chartH = h - padT - padB;
+
+    // Y-axis ticks
+    let gridSvg = "";
+    for (let i = 0; i <= 4; i++) {
+      const y = padT + (chartH / 4) * i;
+      const val = max - (max / 4) * i;
+      gridSvg += `
+        <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" class="grid-line"/>
+        <text x="${padL - 8}" y="${y + 4}" text-anchor="end" class="axis-label">${fmtMoney(val)}</text>
+      `;
+    }
+
+    // Points
+    const points = cumulative.map((v, i) => {
+      const x = padL + (chartW / (years - 1)) * i;
+      const y = padT + chartH - (v / max) * chartH;
+      return { x, y, v, i };
+    });
+
+    // Smooth path (curve)
+    let pathD = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i-1], cur = points[i];
+      const cx = (prev.x + cur.x) / 2;
+      pathD += ` C ${cx} ${prev.y}, ${cx} ${cur.y}, ${cur.x} ${cur.y}`;
+    }
+    const areaD = pathD + ` L ${points[points.length-1].x} ${padT + chartH} L ${points[0].x} ${padT + chartH} Z`;
+
+    let xLabels = "";
+    points.forEach((p, i) => {
+      xLabels += `
+        <text x="${p.x}" y="${h - 14}" text-anchor="middle" class="axis-label">Year ${p.i + 1}</text>
+        <circle cx="${p.x}" cy="${p.y}" r="5" fill="#C8667A" stroke="white" stroke-width="2"/>
+        <text x="${p.x}" y="${p.y - 12}" text-anchor="middle" class="bar-value" style="font-size:11px">${fmtMoney(p.v)}</text>
+      `;
+    });
+
+    $("chartGrowth").setAttribute("viewBox", `0 0 ${w} ${h}`);
+    $("chartGrowth").innerHTML = `
+      <defs>
+        <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#C8667A" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#C8667A" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      ${gridSvg}
+      <path d="${areaD}" fill="url(#areaGrad)">
+        <animate attributeName="opacity" from="0" to="1" dur="0.6s" fill="freeze"/>
+      </path>
+      <path d="${pathD}" fill="none" stroke="#C8667A" stroke-width="3" stroke-linecap="round">
+        <animate attributeName="stroke-dasharray" from="0,2000" to="2000,0" dur="0.8s" fill="freeze"/>
+      </path>
+      ${xLabels}
+    `;
+  }
+
+  // ── Cost-Effectiveness ───────────────────────────────────────────────────
+  // ICER thresholds in USD/QALY (rough harmonization across payers)
+  const ICER_THRESHOLDS = [
+    { key: "who",    name: "WHO 'very cost-effective'", value: 12000, note: "1× GDP per capita threshold" },
+    { key: "nice",   name: "UK NICE",                    value: 38000, note: "£20K–£30K converted to USD" },
+    { key: "cadth",  name: "Canada CADTH",               value: 50000, note: "Common reference threshold" },
+    { key: "icer",   name: "US ICER",                    value: 100000, note: "$100K–$150K WTP threshold" },
+  ];
+  // Primary reference threshold per geography
+  const GEO_PRIMARY = {
+    global: { key: "who",   name: "WHO 'very cost-effective'", short: "WHO",   value: 12000 },
+    us:     { key: "icer",  name: "US ICER",                    short: "US ICER", value: 100000 },
+    canada: { key: "cadth", name: "Canada CADTH",               short: "CADTH", value: 50000 },
+    uk:     { key: "nice",  name: "UK NICE",                    short: "NICE",  value: 38000 },
+    eu:     { key: "nice",  name: "NICE-equivalent (EU avg)",   short: "NICE-equivalent", value: 38000 },
+  };
+
+  function renderCostEffectiveness(result, sliders) {
+    const perUserCost = +$("ceCost").value;
+    const qalyGain = +$("ceQaly").value / 100; // slider 1-10 = 0.01-0.10
+    $("ceCostVal").textContent = "$" + perUserCost;
+    $("ceQalyVal").textContent = qalyGain.toFixed(2);
+
+    const users = result.users;
+    const valuePerUser = result.perUser[view];
+    const annualValue = result.total[view];
+    const annualCost = users * perUserCost;
+    const netPerUser = valuePerUser - perUserCost;
+    const netAnnual = annualValue - annualCost;
+    const roi = valuePerUser / perUserCost;
+    const paybackDays = (perUserCost / valuePerUser) * 365;
+
+    // Unit economics cards
+    $("ceCards").innerHTML = `
+      <div class="ce-card">
+        <div class="ce-card-label">Value Created</div>
+        <div class="ce-card-value">${fmtMoney(valuePerUser, false)}</div>
+        <div class="ce-card-sub">per user, per year</div>
+      </div>
+      <div class="ce-card cost">
+        <div class="ce-card-label">Cost to Payer</div>
+        <div class="ce-card-value">$${perUserCost}</div>
+        <div class="ce-card-sub">per user, per year</div>
+      </div>
+      <div class="ce-card net">
+        <div class="ce-card-label">Net Value</div>
+        <div class="ce-card-value">${fmtMoney(netPerUser, false)}</div>
+        <div class="ce-card-sub">value − cost</div>
+      </div>
+      <div class="ce-card roi">
+        <div class="ce-card-label">ROI Multiple</div>
+        <div class="ce-card-value">${roi.toFixed(1)}×</div>
+        <div class="ce-card-sub">return per $1 spent</div>
+      </div>
+      <div class="ce-card payback">
+        <div class="ce-card-label">Payback Period</div>
+        <div class="ce-card-value">${paybackDays < 30 ? paybackDays.toFixed(0) + "d" : paybackDays < 365 ? (paybackDays/30).toFixed(1) + "mo" : (paybackDays/365).toFixed(1) + "yr"}</div>
+        <div class="ce-card-sub">to recoup spend</div>
+      </div>
+    `;
+
+    // Budget impact chart — 5 years, stacked: cost (down) + savings (up), with net line
+    renderBudgetChart(annualCost, annualValue);
+
+    // Budget summary
+    const cumCost = annualCost * 5;
+    const cumValue = annualValue * 5;
+    const cumNet = cumValue - cumCost;
+    $("budgetSummary").innerHTML = `
+      <div class="ce-card cost">
+        <div class="ce-card-label">5-yr Payer Spend</div>
+        <div class="ce-card-value">${fmtMoney(cumCost)}</div>
+      </div>
+      <div class="ce-card">
+        <div class="ce-card-label">5-yr Value Created</div>
+        <div class="ce-card-value">${fmtMoney(cumValue)}</div>
+      </div>
+      <div class="ce-card net">
+        <div class="ce-card-label">5-yr Net Impact</div>
+        <div class="ce-card-value">${fmtMoney(cumNet)}</div>
+      </div>
+    `;
+
+    // ICER — pick primary reference threshold based on selected geography
+    const costPerQALY = perUserCost / qalyGain;
+    const primary = GEO_PRIMARY[geo];
+    const primaryMult = primary.value / costPerQALY;
+    let bestThreshold = "below all standard payer thresholds";
+    if (costPerQALY > 100000) bestThreshold = "above US ICER threshold — would need pricing review";
+    else if (costPerQALY > 50000) bestThreshold = "between CADTH and US ICER — borderline";
+    else if (costPerQALY > 38000) bestThreshold = "above UK NICE, below CADTH — acceptable in North America";
+    else if (costPerQALY > 12000) bestThreshold = "below most developed-market thresholds";
+
+    const verdict = costPerQALY < primary.value
+      ? `Seazn is <strong style="color:var(--seazn-dark)">${primaryMult.toFixed(0)}× more cost-effective</strong> than the ${primary.name} <strong>$${primary.value.toLocaleString()}/QALY</strong> threshold — ${bestThreshold}.`
+      : `Cost/QALY exceeds the ${primary.name} <strong>$${primary.value.toLocaleString()}/QALY</strong> threshold — ${bestThreshold}.`;
+
+    $("icerBanner").innerHTML = `
+      <div class="icer-headline">Cost per QALY gained: <strong>$${Math.round(costPerQALY).toLocaleString()}</strong></div>
+      <div style="font-size:14px;color:var(--slate);line-height:1.5">${verdict}</div>
+      <div class="icer-thresholds">
+        ${ICER_THRESHOLDS.map(t => {
+          const isPrimary = t.key === primary.key;
+          const passes = costPerQALY < t.value;
+          const borderColor = passes ? 'var(--teal)' : 'var(--slate)';
+          return `
+            <div class="icer-threshold-card" style="border-left:3px solid ${borderColor};${isPrimary ? 'box-shadow:0 0 0 2px var(--seazn);background:var(--seazn-light);' : ''}">
+              <div class="icer-threshold-name">${t.name}${isPrimary ? ' · primary for ' + REGIONS[geo].name : ''}</div>
+              <div class="icer-threshold-value">$${t.value.toLocaleString()}/QALY</div>
+              <div class="icer-threshold-note">${passes ? "✓ Cost-effective" : "Above threshold"} · ${t.note}</div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+
+    // Alternatives table
+    // Cost data drawn from published US/Canada averages — used for relative comparison
+    const alternatives = [
+      { name: "Status quo (no intervention)", cost: 0, value: 0, note: "Symptoms unmanaged; full societal cost borne" },
+      { name: "HRT (when appropriate)", cost: 300, value: 1400, note: "Effective but underutilized; ~10% eligible women use it" },
+      { name: "CBT for menopause", cost: 800, value: 900, note: "Evidence-based but access-limited" },
+      { name: "Supplements / OTC alone", cost: 240, value: 200, note: "Mixed evidence; high out-of-pocket" },
+      { name: "Seazn alone", cost: perUserCost, value: valuePerUser, note: "Navigation + symptom tracking + content", seazn: true },
+      { name: "Seazn + appropriate clinical care", cost: perUserCost + 200, value: valuePerUser + 800, note: "Realistic combined impact", seazn: true },
+    ];
+    $("altsBody").innerHTML = alternatives.map(a => {
+      const net = a.value - a.cost;
+      const roi = a.cost > 0 ? (a.value / a.cost).toFixed(1) + "×" : "—";
+      return `
+        <tr ${a.seazn ? 'class="seazn"' : ''}>
+          <td>${a.name}<div style="font-size:11px;color:var(--slate);font-weight:400;margin-top:2px">${a.note}</div></td>
+          <td class="num">$${a.cost.toLocaleString()}</td>
+          <td class="num">$${a.value.toLocaleString()}</td>
+          <td class="num">$${net.toLocaleString()}</td>
+          <td class="num">${roi}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function renderBudgetChart(annualCost, annualValue) {
+    const years = 5;
+    const w = 800, h = 280, padL = 64, padR = 24, padB = 40, padT = 24;
+    const chartW = w - padL - padR, chartH = h - padT - padB;
+    const max = annualValue || 1;
+    const min = -annualCost;
+    const range = max - min;
+    const yZero = padT + (max / range) * chartH;
+
+    const groupW = chartW / years;
+    const barW = groupW * 0.38;
+
+    let bars = "";
+    let netLabels = "";
+    let yAxis = "";
+
+    // Y-axis ticks
+    for (let i = 0; i <= 4; i++) {
+      const y = padT + (chartH / 4) * i;
+      const val = max - (range / 4) * i;
+      yAxis += `
+        <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" class="grid-line"/>
+        <text x="${padL - 8}" y="${y + 4}" text-anchor="end" class="axis-label">${fmtMoney(val)}</text>
+      `;
+    }
+    // Zero line bold
+    yAxis += `<line x1="${padL}" y1="${yZero}" x2="${w - padR}" y2="${yZero}" stroke="${'#1A2238'}" stroke-width="1.5"/>`;
+
+    for (let i = 0; i < years; i++) {
+      const cx = padL + groupW * i + groupW / 2;
+      // Savings bar (up from zero)
+      const savH = (annualValue / range) * chartH;
+      const savY = yZero - savH;
+      // Cost bar (down from zero)
+      const costH = (annualCost / range) * chartH;
+      const costY = yZero;
+
+      bars += `
+        <rect x="${cx - barW - 2}" y="${savY}" width="${barW}" height="${savH}" fill="#C8667A" rx="3">
+          <animate attributeName="height" from="0" to="${savH}" dur="0.5s" fill="freeze"/>
+          <animate attributeName="y" from="${yZero}" to="${savY}" dur="0.5s" fill="freeze"/>
+        </rect>
+        <rect x="${cx + 2}" y="${costY}" width="${barW}" height="${costH}" fill="#1A2238" rx="3">
+          <animate attributeName="height" from="0" to="${costH}" dur="0.5s" fill="freeze"/>
+        </rect>
+        <text x="${cx}" y="${h - 14}" text-anchor="middle" class="axis-label">Year ${i+1}</text>
+        <text x="${cx - barW/2 - 2}" y="${savY - 6}" text-anchor="middle" class="bar-value" style="font-size:10px">${fmtMoney(annualValue)}</text>
+        <text x="${cx + barW/2 + 2}" y="${costY + costH + 14}" text-anchor="middle" class="bar-value" style="font-size:10px;fill:#94A3B8">${fmtMoney(annualCost)}</text>
+      `;
+    }
+
+    // Legend
+    const legend = `
+      <g transform="translate(${padL}, ${padT - 14})">
+        <rect x="0" y="-8" width="10" height="10" fill="#C8667A" rx="2"/>
+        <text x="16" y="1" class="axis-label">Value created</text>
+        <rect x="120" y="-8" width="10" height="10" fill="#1A2238" rx="2"/>
+        <text x="136" y="1" class="axis-label">Seazn cost to payer</text>
+      </g>
+    `;
+
+    $("chartBudget").innerHTML = `${legend}${yAxis}${bars}`;
+  }
+
+  // ── TAM-SAM-SOM ──────────────────────────────────────────────────────────
+  // Tier-1 markets where Seazn can realistically launch product (EN/FR developed markets)
+  const SAM_MARKETS = ["us", "canada", "uk", "eu"];
+
+  function computeFunnel(sliders) {
+    const symp = sliders.symp / 100;
+    const adopt = sliders.adopt / 100;
+
+    // TAM — Global symptomatic population
+    const tamPopM = REGIONS.global.pop;
+    const tamUsers = tamPopM * 1e6 * symp;
+    const tamPerUser = REGIONS.global.perUser.public + REGIONS.global.perUser.employer * (sliders.emp/100/0.5) + REGIONS.global.perUser.insurer + REGIONS.global.perUser.women;
+    const tamValue = tamUsers * tamPerUser * (sliders.uplift / 40);
+
+    // SAM — Symptomatic women in tier-1 developed markets where Seazn can credibly serve
+    let samPopM = 0, samBlendedPerUser = 0;
+    SAM_MARKETS.forEach(k => {
+      const R = REGIONS[k];
+      samPopM += R.pop;
+    });
+    SAM_MARKETS.forEach(k => {
+      const R = REGIONS[k];
+      const wt = R.pop / samPopM;
+      const pu = R.perUser.public + R.perUser.employer * (sliders.emp/100/0.5) + R.perUser.insurer + R.perUser.women;
+      samBlendedPerUser += pu * wt;
+    });
+    const samUsers = samPopM * 1e6 * symp;
+    const samValue = samUsers * samBlendedPerUser * (sliders.uplift / 40);
+
+    // SOM — Current geography × current adoption (what we're modeling above)
+    const R = REGIONS[geo];
+    const somPopM = sliders.pop;
+    const somUsers = somPopM * 1e6 * symp * adopt;
+    const somPerUser = R.perUser.public + R.perUser.employer * (sliders.emp/100/0.5) + R.perUser.insurer + R.perUser.women;
+    const somValue = somUsers * somPerUser * (sliders.uplift / 40);
+
+    return {
+      tam: { popM: tamPopM, users: tamUsers, value: tamValue, label: "Global cohort" },
+      sam: { popM: samPopM, users: samUsers, value: samValue, label: "Tier-1 developed markets" },
+      som: { popM: somPopM, users: somUsers, value: somValue, label: R.name + " @ " + sliders.adopt + "% adoption" },
+    };
+  }
+
+  function renderFunnel(sliders) {
+    const f = computeFunnel(sliders);
+
+    // SVG funnel — 3 trapezoids, narrowing
+    const w = 500, h = 320;
+    const padY = 8, tierH = (h - 2*padY - 2*8) / 3; // 8px gaps
+    const cx = w / 2;
+    // Widths
+    const w1Top = 460, w1Bot = 360;
+    const w2Top = 360, w2Bot = 220;
+    const w3Top = 220, w3Bot = 90;
+
+    function trap(yTop, hTier, wTop, wBot, fill, label, name, stat) {
+      const yBot = yTop + hTier;
+      return `
+        <path d="M ${cx - wTop/2} ${yTop} L ${cx + wTop/2} ${yTop} L ${cx + wBot/2} ${yBot} L ${cx - wBot/2} ${yBot} Z" fill="${fill}"/>
+        <text x="${cx}" y="${yTop + hTier/2 - 18}" text-anchor="middle" class="funnel-tier-eyebrow">${label}</text>
+        <text x="${cx}" y="${yTop + hTier/2 + 2}" text-anchor="middle" class="funnel-tier-name">${name}</text>
+        <text x="${cx}" y="${yTop + hTier/2 + 22}" text-anchor="middle" class="funnel-tier-stat">${stat}</text>
+      `;
+    }
+
+    const y1 = padY;
+    const y2 = y1 + tierH + 8;
+    const y3 = y2 + tierH + 8;
+
+    const svg = `
+      ${trap(y1, tierH, w1Top, w1Bot, "#E8DCDC", "TAM", f.tam.label, fmtCount(f.tam.users) + " users · " + fmtMoney(f.tam.value))}
+      ${trap(y2, tierH, w2Top, w2Bot, "#C8667A", "SAM", f.sam.label, fmtCount(f.sam.users) + " users · " + fmtMoney(f.sam.value))}
+      ${trap(y3, tierH, w3Top, w3Bot, "#1A2238", "SOM", f.som.label, fmtCount(f.som.users) + " users · " + fmtMoney(f.som.value))}
+    `;
+    $("chartFunnel").innerHTML = svg;
+
+    // Details cards
+    const samPct = (f.sam.users / f.tam.users) * 100;
+    const somPctOfSam = (f.som.users / f.sam.users) * 100;
+    const somPctOfTam = (f.som.users / f.tam.users) * 100;
+    const arrSOM = f.som.value * 0.10;
+
+    $("funnelDetails").innerHTML = `
+      <div class="funnel-row tam">
+        <div class="funnel-row-head">
+          <span class="funnel-row-tier">TAM — Total Addressable</span>
+          <span class="funnel-row-value">${fmtMoney(f.tam.value)}</span>
+        </div>
+        <div class="funnel-row-name">Global peri / menopause cohort</div>
+        <div class="funnel-row-desc">Every symptomatic woman aged 40–65 worldwide. The ceiling of the opportunity if Seazn served every market.</div>
+        <div class="funnel-row-users"><strong>${fmtCount(f.tam.users)}</strong> symptomatic women globally¹</div>
+      </div>
+      <div class="funnel-row sam">
+        <div class="funnel-row-head">
+          <span class="funnel-row-tier">SAM — Serviceable Addressable</span>
+          <span class="funnel-row-value">${fmtMoney(f.sam.value)}</span>
+        </div>
+        <div class="funnel-row-name">US · Canada · UK · EU</div>
+        <div class="funnel-row-desc">Tier-1 developed markets where Seazn can credibly launch product — payer infrastructure, employer benefits adoption, EN/FR-ready content.</div>
+        <div class="funnel-row-users"><strong>${fmtCount(f.sam.users)}</strong> symptomatic women · ${samPct.toFixed(0)}% of TAM</div>
+      </div>
+      <div class="funnel-row som">
+        <div class="funnel-row-head">
+          <span class="funnel-row-tier">SOM — Serviceable Obtainable</span>
+          <span class="funnel-row-value">${fmtMoney(f.som.value)}</span>
+        </div>
+        <div class="funnel-row-name">${f.som.label}</div>
+        <div class="funnel-row-desc">What Seazn captures at current modeled adoption in the selected geography. This is the value pool behind the headline number above.</div>
+        <div class="funnel-row-users"><strong>${fmtCount(f.som.users)}</strong> Seazn users · ${somPctOfSam.toFixed(2)}% of SAM · implies <strong>${fmtMoney(arrSOM)}</strong> ARR ceiling at 10% capture</div>
+      </div>
+    `;
+  }
+
+  function renderMethodology(result, sliders, R) {
+    const users = result.users;
+    const perUser = result.perUser[view];
+    const annual = result.total[view];
+
+    const popM = sliders.pop;
+    const sympPct = sliders.symp;
+    const adoptPct = sliders.adopt;
+    const upliftPct = sliders.uplift;
+
+    const popStr = fmtPop(popM);
+    const usersStr = fmtCount(users);
+    const annualStr = fmtMoney(annual);
+    const perUserStr = fmtMoney(perUser, false);
+    const fiveYrStr = fmtMoney(annual * 5);
+    const arrStr = fmtMoney(annual * 0.10);
+
+    // Per-stakeholder per-user (for "all" view, show the sum breakdown)
+    const pu = result.perUser;
+    let step2Formula;
+    if (view === "all") {
+      step2Formula = `
+        <span class="var">$${Math.round(pu.public).toLocaleString()}</span><span class="op">+</span><span class="var">$${Math.round(pu.employer).toLocaleString()}</span><span class="op">+</span><span class="var">$${Math.round(pu.insurer).toLocaleString()}</span><span class="op">+</span><span class="var">$${Math.round(pu.women).toLocaleString()}</span>
+        <span class="eq">=</span><span class="result">${perUserStr}/user/yr</span>
+        <div style="font-size:11px;color:var(--slate-soft);margin-top:6px">Public + Employer + Insurer + Women</div>
+      `;
+    } else {
+      const items = result.items[view];
+      const parts = items.map(it => `<span class="var">$${Math.round(it.value).toLocaleString()}</span>`).join('<span class="op">+</span>');
+      step2Formula = `
+        ${parts}
+        <span class="eq">=</span><span class="result">${perUserStr}/user/yr</span>
+        <div style="font-size:11px;color:var(--slate-soft);margin-top:6px">${items.length} line items summed</div>
+      `;
+    }
+
+    const stepsHTML = `
+      <div class="method-step">
+        <div class="method-num">1</div>
+        <div>
+          <div class="method-title">Reachable users</div>
+          <div class="method-desc">Population in the peri/menopause window × those with symptoms × who actually adopt Seazn</div>
+          <div class="method-formula">
+            <span class="var">${popStr}</span><span class="op">×</span><span class="var">${sympPct}%</span><span class="op">×</span><span class="var">${adoptPct}%</span>
+            <span class="eq">=</span><span class="result">${usersStr} users</span>
+            <div style="font-size:11px;color:var(--slate-soft);margin-top:6px">Population × % symptomatic × Seazn adoption rate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-step">
+        <div class="method-num">2</div>
+        <div>
+          <div class="method-title">Value created per user, per year</div>
+          <div class="method-desc">${view === "all" ? "Sum of value pools across all four stakeholder groups, calibrated to " + R.name + " healthcare costs and wage levels" : "Sum of line items for this stakeholder view, calibrated to " + R.name}. Scaled by the uplift slider (${upliftPct}% vs. 40% baseline).</div>
+          <div class="method-formula">
+            ${step2Formula}
+          </div>
+        </div>
+      </div>
+
+      <div class="method-step">
+        <div class="method-num">3</div>
+        <div>
+          <div class="method-title">Annual value created</div>
+          <div class="method-desc">The headline number — total economic value created each year at current assumptions</div>
+          <div class="method-formula">
+            <span class="var">${usersStr} users</span><span class="op">×</span><span class="var">${perUserStr}/user</span>
+            <span class="eq">=</span><span class="result">${annualStr}/yr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-step">
+        <div class="method-num">4</div>
+        <div>
+          <div class="method-title">5-year cumulative opportunity</div>
+          <div class="method-desc">Static — no growth or compounding assumed. Real-world numbers are larger as adoption ramps.</div>
+          <div class="method-formula">
+            <span class="var">${annualStr}/yr</span><span class="op">×</span><span class="var">5 years</span>
+            <span class="eq">=</span><span class="result">${fiveYrStr}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-step">
+        <div class="method-num">5</div>
+        <div>
+          <div class="method-title">Implied ARR ceiling</div>
+          <div class="method-desc">If Seazn captures 10% of the value it creates — a conservative SaaS-style monetization assumption — this is the recurring revenue ceiling.</div>
+          <div class="method-formula">
+            <span class="var">${annualStr}/yr</span><span class="op">×</span><span class="var">10% capture</span>
+            <span class="eq">=</span><span class="result">${arrStr} ARR potential</span>
+          </div>
+        </div>
+      </div>
+    `;
+    $("methodSteps").innerHTML = stepsHTML;
+
+    // Derivation cards
+    const stakes = [
+      { key: "public",   label: "Public Health",     desc: "Per symptomatic user, per year" },
+      { key: "employer", label: "Employers",         desc: `Per user × ${sliders.emp}% employment rate` },
+      { key: "insurer",  label: "Private Insurers",  desc: "Per insured symptomatic user" },
+      { key: "women",    label: "Individual Women",  desc: "Out-of-pocket + time cost" },
+    ];
+    const derivationHTML = stakes.map(s => {
+      const items = result.items[s.key];
+      const lines = items.map(it => `
+        <div class="derivation-line">
+          <span>${it.name.replace(/&amp;/g, '&').replace(/[¹²³⁴⁵⁶⁷⁸⁹⁻]+/g, '')}</span>
+          <span class="val">$${Math.round(it.value).toLocaleString()}</span>
+        </div>
+      `).join("");
+      return `
+        <div class="derivation-card ${s.key}">
+          <div class="derivation-stake">${s.label}</div>
+          <div class="derivation-total">${fmtMoney(pu[s.key], false)}<small>/user/yr</small></div>
+          ${lines}
+        </div>
+      `;
+    }).join("");
+    $("derivationGrid").innerHTML = derivationHTML;
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function readSliders() {
+    return {
+      pop: +$("pop").value,
+      symp: +$("symp").value,
+      adopt: +$("adopt").value,
+      uplift: +$("uplift").value,
+      emp: +$("emp").value,
+    };
+  }
+
+  function syncSlidersToGeo() {
+    const R = REGIONS[geo];
+    $("pop").max = R.popMax;
+    $("pop").value = R.pop;
+    $("emp").value = R.emp;
+    $("assumptionsSub").textContent = R.assumptionsSub.replace(/[¹²³⁴⁵⁶⁷⁸⁹]+/g, m => m);
+  }
+
+  function render() {
+    const sliders = readSliders();
+    const R = REGIONS[geo];
+    const result = compute(geo, sliders);
+
+    // Slider value labels
+    $("popVal").textContent = fmtPop(sliders.pop);
+    $("sympVal").textContent = sliders.symp + "%";
+    $("adoptVal").textContent = sliders.adopt + "%";
+    $("upliftVal").textContent = sliders.uplift + "%";
+    $("empVal").textContent = sliders.emp + "%";
+
+    // Hero
+    $("heroNumber").textContent = fmtMoney(result.total[view]);
+    $("heroEyebrow").textContent = META[view].eyebrow + " · " + R.name;
+    $("heroLabel").innerHTML = R.label;
+
+    // Clarifier — make penetration assumption visible
+    const totalSympM = sliders.pop * (sliders.symp / 100);
+    $("heroClarifier").innerHTML = `Modeled at <strong>${sliders.adopt}% Seazn adoption</strong> — <strong>${fmtCount(result.users)}</strong> users out of <strong>${fmtPop(totalSympM)}</strong> symptomatic women in ${R.name}`;
+
+    // Breakdown
+    $("bdTitle").innerHTML = TITLES[view] + ` <span class="geo-tag">${R.name}</span>`;
+    $("bdSubtotal").textContent = fmtMoney(result.total[view]);
+
+    let items;
+    if (view === "all") {
+      items = [
+        { name: "Public health systems",   desc: "GP/specialist/ER, diagnostics, chronic disease prevention⁶", value: result.perUser.public },
+        { name: "Employers",                desc: "Productivity, presenteeism, retention (employed subset)²⁻⁵", value: result.perUser.employer },
+        { name: "Private insurers",         desc: "Avoided claims, fewer referrals, downstream prevention",      value: result.perUser.insurer },
+        { name: "Individual women",         desc: "Out-of-pocket, time cost, supplement right-sizing",            value: result.perUser.women },
+      ];
+    } else {
+      items = result.items[view];
+    }
+
+    const html = items.map(it => `
+      <div class="line-item">
+        <div>
+          <div class="line-name">${it.name}</div>
+          <div class="line-desc">${it.desc}</div>
+        </div>
+        <div>
+          <div class="line-value">${fmtMoney(it.value * result.users)}</div>
+          <span class="line-per">${fmtMoney(it.value, false)} / user / yr</span>
+        </div>
+      </div>
+    `).join("");
+    $("lineItems").innerHTML = html;
+
+    // Stats
+    $("statUsers").textContent = fmtCount(result.users);
+    $("statPerUser").textContent = fmtMoney(result.perUser[view], false);
+    $("stat5Yr").textContent = fmtMoney(result.total[view] * 5);
+    $("statArr").textContent = fmtMoney(result.total[view] * 0.10);
+
+    // Pitch
+    $("pitchLine").textContent = META[view].pitch;
+    $("pitchSub").textContent = R.pitchSub.replace(/[¹²³⁴⁵⁶⁷⁸⁹]+/g, "");
+
+    // Charts
+    const perStakeTotals = {
+      public: result.total.public,
+      employer: result.total.employer,
+      insurer: result.total.insurer,
+      women: result.total.women,
+    };
+    renderStakeChart(perStakeTotals, result.total.all);
+    renderGeoChart(sliders);
+    renderGrowthChart(result.total[view]);
+    renderMethodology(result, sliders, R);
+    renderFunnel(sliders);
+    renderCostEffectiveness(result, sliders);
+  }
+
+  // ── Wire up ──────────────────────────────────────────────────────────────
+  document.querySelectorAll(".chip").forEach(c => {
+    c.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+      c.classList.add("active");
+      geo = c.dataset.geo;
+      syncSlidersToGeo();
+      render();
+    });
+  });
+  document.querySelectorAll(".tab").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      view = b.dataset.view;
+      render();
+    });
+  });
+  ["pop","symp","adopt","uplift","emp","ceCost","ceQaly"].forEach(id => {
+    $(id).addEventListener("input", render);
+  });
+
+  document.querySelectorAll(".mode-tab").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".mode-tab").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      mode = b.dataset.mode;
+      document.querySelectorAll(".mode-section").forEach(s => {
+        s.classList.toggle("active", s.dataset.mode === mode);
+      });
+    });
+  });
+
+  syncSlidersToGeo();
+  render();
+</script>
+</body>
+</html>

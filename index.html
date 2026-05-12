@@ -1084,7 +1084,7 @@
 
         <div class="input-group">
           <div class="input-label">
-            <span class="input-label-text">% of women employed <button class="info-btn" data-info='Labor force participation rate for women aged 40–65 in the selected geography. <strong>Only the employer-side value pool</strong> scales with this — public health, insurer, and women&#39;s pools are independent of employment status. Calibrated to BLS, Stats Canada, ONS, Eurostat.'>i</button></span>
+            <span class="input-label-text">% of women employed <button class="info-btn" data-info='Labor force participation rate for women aged 40–65 in the selected geography. <strong>Only the employer-side value pool</strong> scales with this — public health, insurer, and women&#39;s pools are independent of employment status.<br><br><strong>Base case per OECD Employment Outlook 2025:¹⁰</strong><br>🌍 Global <em>62%</em> · 🇺🇸 US <em>70%</em> · 🇨🇦 Canada <em>75%</em><br>🇬🇧 UK <em>73%</em> · 🇪🇺 EU <em>63%</em>'>i</button></span>
             <span class="input-value" id="empVal">50%</span>
           </div>
           <input type="range" id="emp" min="30" max="80" value="50" step="5">
@@ -1255,6 +1255,7 @@
       <li id="ref7"><strong>NAMS / The Menopause Society.</strong> 75–85% of women experience menopause-related symptoms; ~25% report severe symptoms affecting quality of life. <a href="https://menopause.org/" target="_blank">menopause.org</a></li>
       <li id="ref8"><strong>Grand View Research (2024).</strong> Global menopause market projected at <strong>$24.4B by 2030</strong>, CAGR ~5.4%. Note: this is the addressable product/treatment market, separate from the broader savings opportunity modeled here. <a href="https://www.grandviewresearch.com/industry-analysis/menopause-market" target="_blank">grandviewresearch.com</a></li>
       <li id="ref9"><strong>Method notes.</strong> Per-stakeholder values reflect distinct economic pools and are presented as additive in the consolidated view (employers capture productivity; women capture out-of-pocket and time; public/insurer pools capture system claims). Real-world overlap exists between employer productivity and women's lost income (per <a href="#ref3">ref 3</a>). For investor diligence, the public-health view is the cleanest non-overlapping estimate.</li>
+      <li id="ref10"><strong>OECD Employment Outlook 2025 — "Navigating the golden years."</strong> Women's labor force participation rates calibrated for women aged ~45–64: <strong>OECD avg 66.6%</strong>; <strong>US ~70%</strong>; <strong>Canada ~75%</strong>; <strong>UK ~73%</strong>; <strong>EU ~63%</strong>; Global modeled to <strong>~62%</strong> reflecting LMIC mix. Between 2000–2024, employment rose <strong>18.5 percentage points</strong> for women aged 55–59 across the OECD. <a href="https://www.oecd.org/en/publications/oecd-employment-outlook-2025_194a947b-en.html" target="_blank">oecd.org/en/publications/oecd-employment-outlook-2025</a> · LFPR indicator page: <a href="https://www.oecd.org/en/data/indicators/labour-force-participation-rate.html" target="_blank">oecd.org/en/data/indicators/labour-force-participation-rate</a></li>
     </ol>
   </div>
 
@@ -1266,7 +1267,7 @@
     global: {
       name: "Global",
       pop: 1100, popMax: 2000,
-      emp: 50,
+      emp: 62,
       perUser: { public: 400, employer: 1200, insurer: 400, women: 700 },
       label: "Across the global perimenopause &amp; menopause population — money saved, productivity recaptured, and value returned to women, employers, insurers, and public health systems.",
       pitchSub: "1.1B women globally. Decade-long symptom windows. Fragmented systems. Seazn is the navigation layer that turns invisible suffering into measurable value.",
@@ -1275,7 +1276,7 @@
     us: {
       name: "United States",
       pop: 50, popMax: 80,
-      emp: 62,
+      emp: 70,
       perUser: { public: 850, employer: 2400, insurer: 850, women: 1400 },
       label: "Across the US perimenopause &amp; menopause population — claims avoided, productivity recaptured, and out-of-pocket costs returned to women.",
       pitchSub: "50M American women. Mayo Clinic² puts the US productivity loss alone at $1.8B/yr — and $26.6B/yr with medical costs included.",
@@ -1284,7 +1285,7 @@
     canada: {
       name: "Canada",
       pop: 6.5, popMax: 12,
-      emp: 70,
+      emp: 75,
       perUser: { public: 480, employer: 1700, insurer: 200, women: 900 },
       label: "Across the Canadian peri/menopause population — public system savings, employer productivity gains, and dollars returned to women.",
       pitchSub: "Menopause Foundation Canada³ puts the unmanaged cost at $3.5B/yr — $3.3B borne by women themselves. Seazn is Canadian-built for this market.",
@@ -1293,7 +1294,7 @@
     uk: {
       name: "United Kingdom",
       pop: 9, popMax: 15,
-      emp: 70,
+      emp: 73,
       perUser: { public: 450, employer: 1900, insurer: 180, women: 750 },
       label: "Across the UK peri/menopause population — NHS savings, employer productivity gains, and dollars returned to women.",
       pitchSub: "CIPD⁴ reports 67% of women see negative work impact; Fawcett⁵ says 1 in 10 have left jobs. 14M working days lost yearly.",
@@ -1302,7 +1303,7 @@
     eu: {
       name: "European Union",
       pop: 65, popMax: 100,
-      emp: 60,
+      emp: 63,
       perUser: { public: 500, employer: 1700, insurer: 280, women: 800 },
       label: "Across the EU peri/menopause population — public system savings, employer productivity gains, and dollars returned to women.",
       pitchSub: "65M women in the EU peri/menopause window. Public systems carry most of the cost — and most of the savings opportunity.",

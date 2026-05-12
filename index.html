@@ -4,22 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="seazn-logo.png">
+<link rel="apple-touch-icon" href="seazn-logo.png">
+<meta name="theme-color" content="#C08878">
+<meta property="og:title" content="Seazn — Healthcare Savings Calculator">
+<meta property="og:description" content="Investor preview: the value Seazn creates across women, employers, insurers, and public health systems.">
+<meta property="og:image" content="seazn-logo.png">
 <title>Seazn — Healthcare Savings Calculator</title>
 <style>
   :root {
-    --seazn: #C8667A;
-    --seazn-dark: #A04A5E;
-    --seazn-light: #F5E1E6;
-    --navy: #1A2238;
-    --slate: #4A5568;
-    --slate-soft: #94A3B8;
-    --cream: #FAF6F2;
-    --gold: #D4A574;
-    --teal: #5B8C8A;
-    --plum: #7B5E8E;
-    --line: #E8DCDC;
-    --shadow: 0 4px 24px rgba(26, 34, 56, 0.08);
-    --shadow-lg: 0 12px 40px rgba(26, 34, 56, 0.12);
+    /* Seazn brand palette — drawn from seaznapp.com design tokens */
+    --seazn: #C08878;          /* terracotta — primary accent */
+    --seazn-dark: #9A6B5D;     /* deeper terracotta */
+    --seazn-light: #F1D9D2;    /* blush */
+    --navy: #4A3F3A;           /* warm dark brown (brand foreground) */
+    --slate: #6E625B;          /* warm slate */
+    --slate-soft: #A89F97;     /* warm soft */
+    --cream: #F8F4ED;          /* warm sand background */
+    --gold: #E8B194;           /* autumn coral */
+    --teal: #88AC95;           /* leafy sage */
+    --plum: #7FA289;           /* deeper sage */
+    --line: #E5DDD3;           /* warm line */
+    --shadow: 0 4px 24px rgba(74, 63, 58, 0.08);
+    --shadow-lg: 0 12px 40px rgba(74, 63, 58, 0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -40,15 +47,23 @@
     border-bottom: 1px solid var(--line);
     margin-bottom: 40px;
   }
-  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: block;
+  }
+  .brand-text { display: flex; flex-direction: column; gap: 2px; }
   .logo {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: var(--seazn);
     letter-spacing: -0.5px;
+    line-height: 1;
   }
-  .tagline { color: var(--slate); font-size: 13px; }
+  .tagline { color: var(--slate); font-size: 12px; }
   .meta { font-size: 12px; color: var(--slate); text-align: right; }
 
   /* Geography chips */
@@ -480,15 +495,23 @@
     box-shadow: var(--shadow-lg);
     text-align: center;
   }
+  .gate-mark {
+    width: 88px;
+    height: 88px;
+    border-radius: 18px;
+    display: block;
+    margin: 0 auto 16px;
+  }
   .gate-logo {
     font-family: Georgia, serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--seazn);
     letter-spacing: -1px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
   .gate-sub { color: var(--slate); font-size: 14px; margin-bottom: 28px; }
+  .gate-tagline { color: var(--slate-soft); font-size: 12px; font-style: italic; margin-bottom: 24px; letter-spacing: 0.5px; }
   .gate-input {
     width: 100%;
     padding: 14px 16px;
@@ -863,7 +886,9 @@
 
 <div id="gate">
   <div class="gate-card">
+    <img src="seazn-logo.png" alt="Seazn" class="gate-mark">
     <div class="gate-logo">seazn</div>
+    <div class="gate-tagline">Navigate Your Changing Seasons™</div>
     <div class="gate-sub">Investor preview — healthcare savings calculator</div>
     <input type="password" class="gate-input" id="gatePw" placeholder="Access code" autofocus>
     <button class="gate-btn" id="gateBtn">View calculator</button>
@@ -899,11 +924,14 @@
 
   <header>
     <div class="brand">
-      <div class="logo">seazn</div>
-      <div class="tagline">Healthcare Savings Calculator</div>
+      <img src="seazn-logo.png" alt="Seazn" class="logo-mark">
+      <div class="brand-text">
+        <div class="logo">seazn</div>
+        <div class="tagline">Healthcare Savings Calculator</div>
+      </div>
     </div>
     <div class="meta">
-      For investor conversations · v2<br>
+      Navigate Your Changing Seasons™<br>
       seaznhealth.com · seaznapp.com
     </div>
   </header>
@@ -1253,10 +1281,10 @@
   };
 
   const STAKE_COLORS = {
-    public: "#5B8C8A",
-    employer: "#C8667A",
-    insurer: "#7B5E8E",
-    women: "#D4A574",
+    public: "#88AC95",    /* sage — public health */
+    employer: "#C08878",  /* terracotta — employers */
+    insurer: "#7FA289",   /* deep sage — insurers */
+    women: "#E8B194",     /* autumn coral — women */
   };
 
   // ── State ────────────────────────────────────────────────────────────────
@@ -1357,8 +1385,8 @@
       const bh = (values[i] / max) * chartH;
       const y = padT + chartH - bh;
       const isActive = r === geo;
-      const color = isActive ? "#C8667A" : "#E8DCDC";
-      const txtColor = isActive ? "#1A2238" : "#94A3B8";
+      const color = isActive ? "#C08878" : "#E5DDD3";
+      const txtColor = isActive ? "#4A3F3A" : "#A89F97";
       svg += `
         <rect x="${x}" y="${y}" width="${barWMax}" height="${bh}" fill="${color}" rx="6">
           <animate attributeName="height" from="0" to="${bh}" dur="0.6s" fill="freeze"/>
@@ -1411,7 +1439,7 @@
     points.forEach((p, i) => {
       xLabels += `
         <text x="${p.x}" y="${h - 14}" text-anchor="middle" class="axis-label">Year ${p.i + 1}</text>
-        <circle cx="${p.x}" cy="${p.y}" r="5" fill="#C8667A" stroke="white" stroke-width="2"/>
+        <circle cx="${p.x}" cy="${p.y}" r="5" fill="#C08878" stroke="white" stroke-width="2"/>
         <text x="${p.x}" y="${p.y - 12}" text-anchor="middle" class="bar-value" style="font-size:11px">${fmtMoney(p.v)}</text>
       `;
     });
@@ -1420,15 +1448,15 @@
     $("chartGrowth").innerHTML = `
       <defs>
         <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stop-color="#C8667A" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#C8667A" stop-opacity="0"/>
+          <stop offset="0%" stop-color="#C08878" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#C08878" stop-opacity="0"/>
         </linearGradient>
       </defs>
       ${gridSvg}
       <path d="${areaD}" fill="url(#areaGrad)">
         <animate attributeName="opacity" from="0" to="1" dur="0.6s" fill="freeze"/>
       </path>
-      <path d="${pathD}" fill="none" stroke="#C8667A" stroke-width="3" stroke-linecap="round">
+      <path d="${pathD}" fill="none" stroke="#C08878" stroke-width="3" stroke-linecap="round">
         <animate attributeName="stroke-dasharray" from="0,2000" to="2000,0" dur="0.8s" fill="freeze"/>
       </path>
       ${xLabels}
@@ -1602,7 +1630,7 @@
       `;
     }
     // Zero line bold
-    yAxis += `<line x1="${padL}" y1="${yZero}" x2="${w - padR}" y2="${yZero}" stroke="${'#1A2238'}" stroke-width="1.5"/>`;
+    yAxis += `<line x1="${padL}" y1="${yZero}" x2="${w - padR}" y2="${yZero}" stroke="#4A3F3A" stroke-width="1.5"/>`;
 
     for (let i = 0; i < years; i++) {
       const cx = padL + groupW * i + groupW / 2;
@@ -1614,25 +1642,25 @@
       const costY = yZero;
 
       bars += `
-        <rect x="${cx - barW - 2}" y="${savY}" width="${barW}" height="${savH}" fill="#C8667A" rx="3">
+        <rect x="${cx - barW - 2}" y="${savY}" width="${barW}" height="${savH}" fill="#C08878" rx="3">
           <animate attributeName="height" from="0" to="${savH}" dur="0.5s" fill="freeze"/>
           <animate attributeName="y" from="${yZero}" to="${savY}" dur="0.5s" fill="freeze"/>
         </rect>
-        <rect x="${cx + 2}" y="${costY}" width="${barW}" height="${costH}" fill="#1A2238" rx="3">
+        <rect x="${cx + 2}" y="${costY}" width="${barW}" height="${costH}" fill="#4A3F3A" rx="3">
           <animate attributeName="height" from="0" to="${costH}" dur="0.5s" fill="freeze"/>
         </rect>
         <text x="${cx}" y="${h - 14}" text-anchor="middle" class="axis-label">Year ${i+1}</text>
         <text x="${cx - barW/2 - 2}" y="${savY - 6}" text-anchor="middle" class="bar-value" style="font-size:10px">${fmtMoney(annualValue)}</text>
-        <text x="${cx + barW/2 + 2}" y="${costY + costH + 14}" text-anchor="middle" class="bar-value" style="font-size:10px;fill:#94A3B8">${fmtMoney(annualCost)}</text>
+        <text x="${cx + barW/2 + 2}" y="${costY + costH + 14}" text-anchor="middle" class="bar-value" style="font-size:10px;fill:#A89F97">${fmtMoney(annualCost)}</text>
       `;
     }
 
     // Legend
     const legend = `
       <g transform="translate(${padL}, ${padT - 14})">
-        <rect x="0" y="-8" width="10" height="10" fill="#C8667A" rx="2"/>
+        <rect x="0" y="-8" width="10" height="10" fill="#C08878" rx="2"/>
         <text x="16" y="1" class="axis-label">Value created</text>
-        <rect x="120" y="-8" width="10" height="10" fill="#1A2238" rx="2"/>
+        <rect x="120" y="-8" width="10" height="10" fill="#4A3F3A" rx="2"/>
         <text x="136" y="1" class="axis-label">Seazn cost to payer</text>
       </g>
     `;
@@ -1710,9 +1738,9 @@
     const y3 = y2 + tierH + 8;
 
     const svg = `
-      ${trap(y1, tierH, w1Top, w1Bot, "#E8DCDC", "TAM", f.tam.label, fmtCount(f.tam.users) + " users · " + fmtMoney(f.tam.value))}
-      ${trap(y2, tierH, w2Top, w2Bot, "#C8667A", "SAM", f.sam.label, fmtCount(f.sam.users) + " users · " + fmtMoney(f.sam.value))}
-      ${trap(y3, tierH, w3Top, w3Bot, "#1A2238", "SOM", f.som.label, fmtCount(f.som.users) + " users · " + fmtMoney(f.som.value))}
+      ${trap(y1, tierH, w1Top, w1Bot, "#E5DDD3", "TAM", f.tam.label, fmtCount(f.tam.users) + " users · " + fmtMoney(f.tam.value))}
+      ${trap(y2, tierH, w2Top, w2Bot, "#C08878", "SAM", f.sam.label, fmtCount(f.sam.users) + " users · " + fmtMoney(f.sam.value))}
+      ${trap(y3, tierH, w3Top, w3Bot, "#4A3F3A", "SOM", f.som.label, fmtCount(f.som.users) + " users · " + fmtMoney(f.som.value))}
     `;
     $("chartFunnel").innerHTML = svg;
 
